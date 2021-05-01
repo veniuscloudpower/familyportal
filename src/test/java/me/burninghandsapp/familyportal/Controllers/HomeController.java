@@ -12,7 +12,7 @@ public class HomeController {
     @GetMapping("/")
     public String Home(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        return "Home";
+        return "Default";
     }
 
 

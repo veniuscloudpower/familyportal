@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       >
+<head th:replace="Layout/Layout :: head">
+
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
+<header class="app-header navbar" th:replace="Layout/Layout :: header">
+
+</header>
+<div class="app-body">
+    <div class="sidebar" th:replace="Layout/Layout :: sidebar">
+    </div>
+    <th:block th:replace="__${pagefragment}__"></th:block>
+
+
+    <aside class="aside-menu" th:replace="Layout/Layout :: chat">
+
+    </aside>
+</div>
+<footer class="app-footer" th:replace="Layout/Layout :: footer">
+
+</footer>
+<th:block th:replace="Layout/Layout :: script"></th:block>
+
+
+</body>
+</html>

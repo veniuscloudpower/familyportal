@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <th:block th:fragment="main">
+        <main class="main" >
+            <!-- Breadcrumb-->
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item">
+                    Category
+                </li>
+                <li class="breadcrumb-item">
+                    <span th:text="${category.CategoryName}"></span>
+                </li>
+
+            </ol>
+            <div class="container-fluid">
+                <div class="animated fadeIn">
+                   <h3 th:text="${category.CategoryName}"></h3>
+                    <p th:text="${category.CategoryDescription}"></p>
+                </div>
+            </div>
+        </main>
+    </th:block>
+</head>
+<body>
+
+</body>
+</html>

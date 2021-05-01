@@ -4,20 +4,19 @@ package me.burninghandsapp.familyportal.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class HomeController {
+public class HomeController extends  BaseController {
+
+
 
     @GetMapping("/")
-    public String Home(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "Home";
+    public String Index( Model model) {
+        getbaseModel(model,"pages/index :: main");
+        return "Default";
     }
 
-    @GetMapping("/login")
-    public String Login() {
 
-        return "login";
-    }
+
+
 }

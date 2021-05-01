@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html  lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="main">
+<main class="main" >
+    <!-- Breadcrumb-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">
+            <a href="/">Admin</a>
+        </li>
+    </ol>
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+        </div>
+    </div>
+</main>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      >
+<head th:fragment="head">
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>CoreUI Pro Bootstrap Admin Template</title>
+    <!-- Icons-->
+    <link th:href="@{/vendors/@coreui/icons/css/coreui-icons.min.css}" rel="stylesheet">
+    <link th:href="@{/vendors/flag-icon-css/css/flag-icon.min.css}" rel="stylesheet">
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <link th:href="@{/vendors/simple-line-icons/css/simple-line-icons.css}" rel="stylesheet">
+    <!-- Main styles for this application-->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link th:href="@{/vendors/pace-progress/css/pace.min.css}" rel="stylesheet">
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
+<header class="app-header navbar" th:fragment="header">
+    <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">
+        <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
+        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+    </a>
+    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler aside-menu-toggler d-md-down-none ml-auto" type="button" data-toggle="aside-menu-lg-show">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <button class="navbar-toggler aside-menu-toggler d-lg-none" type="button" data-toggle="aside-menu-show">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</header>
+<div class="app-body">
+    <div class="sidebar" th:fragment="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <i class="nav-icon icon-speedometer"></i> Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#">
+                        <i class="nav-icon icon-layers"></i> Sections</a>
+                    <ul class="nav-dropdown-items">
+
+                        <li th:each="category: ${categories}" class="nav-item">
+                            <a class="nav-link" th:href="@{|/Category?id=${category.Id}|}"  >
+                                <i class="nav-icon icon-tag"></i> <span th:text="${category.CategoryName}"></span> </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Categories">
+                        <i class="nav-icon icon-drawer"></i> Category List
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Users">
+                        <i class="nav-icon icon-people"></i> Users
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/Settings">
+                        <i class="nav-icon icon-settings"></i> Settings
+                    </a>
+                </li>
+
+                <li>
+                    <a class="nav-link" href="javascript:;" onclick="document.getElementById('logoutbtn').click();">
+                        <i class="nav-icon icon-logout"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <form th:action="@{/logout}" method="post" >
+            <button id="logoutbtn" class="nav-link" type="submit" value="Logout" style="display: none" />
+        </form>
+    </div>
+    <main class="main">
+        <!-- Breadcrumb-->
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item">
+                <a href="#">Admin</a>
+            </li>
+        </ol>
+        <div class="container-fluid">
+            <div class="animated fadeIn">
+                Hello world!
+            </div>
+
+
+            <p th:text="'Hello, ' + ${name} + '!'" />
+            <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+
+        </div>
+    </main>
+    <aside class="aside-menu" th:fragment="chat">
+        <h1>Chat</h1>
+    </aside>
+</div>
+<footer class="app-footer" th:fragment="footer">
+    <div>
+        <a href="https://coreui.io/pro/">CoreUI Pro</a>
+        <span>&copy; 2018 creativeLabs.</span>
+    </div>
+    <div class="ml-auto">
+        <span>Powered by</span>
+        <a href="https://coreui.io/pro/">CoreUI Pro</a>
+    </div>
+</footer>
+
+<th:block th:fragment="script">
+<!-- CoreUI and necessary plugins-->
+<script th:src="@{/vendors/jquery/js/jquery.min.js}"></script>
+<script th:src="@{/vendors/popper.js/js/popper.min.js}"></script>
+<script th:src="@{/vendors/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/vendors/pace-progress/js/pace.min.js}"></script>
+<script th:src="@{/vendors/perfect-scrollbar/js/perfect-scrollbar.min.js}"></script>
+<script th:src="@{/vendors/@coreui/coreui-pro/js/coreui.min.js}"></script>
+</th:block>
+
+</body>
+</html>
