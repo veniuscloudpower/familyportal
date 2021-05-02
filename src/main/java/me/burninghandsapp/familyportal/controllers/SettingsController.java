@@ -9,7 +9,7 @@ public class SettingsController extends BaseController {
 
     @GetMapping("/Settings")
     public String Index( Model model) {
-        getbaseModel(model,"pages/settings :: main");
+        getbaseModel(model,"pages/settings :: main",5);
         return "Default";
     }
 

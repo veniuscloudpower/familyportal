@@ -12,15 +12,16 @@ public class CategoryController extends  BaseController {
     @GetMapping("/Categories")
     public  String Categories(Model model)
     {
-        getbaseModel(model,"pages/categories :: main");
+        getbaseModel(model,"pages/categories :: main",3);
         return "Default";
     }
 
     @GetMapping("/Category")
     public String Category(@RequestParam Integer id, Model model)
     {
-        getbaseModel(model,"pages/category :: main");
+        getbaseModel(model,"pages/category :: main",2);
         model.addAttribute("category",categoryRepository.getOne(id));
+        model.addAttribute("a2",id);
         return "Default";
     }
 }

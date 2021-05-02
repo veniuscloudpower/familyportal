@@ -12,7 +12,7 @@ public class HomeController extends  BaseController {
 
     @GetMapping("/")
     public String Index( Model model) {
-        getbaseModel(model,"pages/index :: main");
+        getbaseModel(model,"pages/index :: main",1);
         return "Default";
     }
 

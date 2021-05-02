@@ -9,7 +9,7 @@ public class UsersController extends BaseController {
 
     @GetMapping("/Users")
     public String Index( Model model) {
-        getbaseModel(model,"pages/users :: main");
+        getbaseModel(model,"pages/users :: main",4);
         return "Default";
     }
 }
