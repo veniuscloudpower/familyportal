@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+       >
+<head th:replace="Layout/Layout :: head">
+
+</head>
+<body class="hold-transition sidebar-mini">
+
+<!-- Site wrapper -->
+<div class="wrapper">
+
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" th:replace="Layout/Layout :: horizontal-navbar">
+    </nav>
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4" th:replace="Layout/Layout :: vertical-navbar">
+    </aside>
+
+    <th:block th:replace="__${pagefragment}__"></th:block>
+
+
+
+
+</div>
+
+<footer class="app-footer" th:replace="Layout/Layout :: footer">
+
+</footer>
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark" th:replace="Layout/Layout :: aside">
+    <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+</div>
+
+<th:block th:replace="Layout/Layout :: script"></th:block>
+
+
+</body>
+</html>
