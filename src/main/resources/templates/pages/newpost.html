@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block th:fragment="main">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>New Post</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">New Post</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card card-outline card-primary">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-blog"></i> New Post</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+
+        <form  th:action="@{/NewPost}" th:object="${newpost}" method="post" role="form">
+        <div class="card-body">
+
+
+            <div class="form-group">
+              <label for="Category">Category</label>
+              <select id="Category" class="form-control" th:field="${newpost.category}" >
+                <option value="">Please Select</option>
+                <option th:each="cte : ${categories}"  th:value="${cte.Id}" th:text="${cte.CategoryName}">
+
+                </option>
+              </select>
+
+            </div>
+          <div class="form-group">
+            <label for="Title">Title</label>
+            <input type="text" class="form-control" th:field="${newpost.Title}" id="Title">
+          </div>
+
+          <div class="form-group">
+            <label for="summernote">Description</label>
+
+            <textarea th:field="${newpost.Description}" id="summernote"></textarea>
+          </div>
+
+        </div>
+
+          <div class="card-footer">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</th:block>
+
+<th:block th:fragment="style">
+  <!-- Page style Here  -->
+  <link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}" />
+</th:block>
+
+<th:block th:fragment="script">
+  <!-- Page scripts Here  -->
+  <script th:src="@{/plugins/summernote/summernote-bs4.min.js}"></script>
+<script>
+  $(function () {
+    // Summernote
+    $('#summernote').summernote();
+  })
+</script>
+</th:block>
+</body>
+</html>

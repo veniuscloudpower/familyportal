@@ -45,7 +45,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    Articles for Category Here.
+                  <div th:each="article : ${articles}">
+                      <p th:text="${article.Title}"></p>
+                  </div>
                 </div>
 
             </div>
@@ -58,5 +60,14 @@
 
 
 </th:block>
+
+<th:block th:fragment="style">
+    <!-- Page style Here  -->
+</th:block>
+
+<th:block th:fragment="script">
+    <!-- Page scripts Here  -->
+</th:block>
+
 </body>
 </html>

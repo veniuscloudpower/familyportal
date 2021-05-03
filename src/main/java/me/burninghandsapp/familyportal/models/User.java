@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +27,16 @@ public class User implements Serializable {
     private String password;
     private String role;
     private boolean enabled;
+
+
+    private  String avatar;
+    private  String firstName;
+    private  String lastName;
+
+    private  String email;
+    private  String mobile;
+
+
 
 
 

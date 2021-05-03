@@ -21,5 +21,6 @@ public class BlogPostItemComments implements Serializable {
     @ManyToOne
     private  User Author;
 
+    @Column(columnDefinition="TEXT")
     private String CommentText;
 }

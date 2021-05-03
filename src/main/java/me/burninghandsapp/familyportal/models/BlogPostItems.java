@@ -15,7 +15,9 @@ public class BlogPostItems implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private  int Id;
 
+
     @ManyToOne
+    @JoinColumn(name="category_id", referencedColumnName="id")
     private Categories category;
 
     @Column(length = 150)
@@ -24,7 +26,7 @@ public class BlogPostItems implements Serializable {
     @Column(columnDefinition="TEXT")
     private  String Description;
 
-    @Column(length = 150)
+    @Column(length = 1500)
     private  String Website;
 
     @ManyToOne
