@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Controller
 public class BaseController {
 
@@ -39,7 +42,7 @@ public class BaseController {
         return model;
     }
 
-    private  String getUserName()
+    public    String getUserName()
     {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -50,6 +53,12 @@ public class BaseController {
             String username = principal.toString();
             return  username;
         }
+    }
+
+    public LocalDateTime getNow()
+    {
+        var dateCreated = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return  LocalDateTime.parse(dateCreated,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     private String getActiveMenu(String menuID,int activemenu)

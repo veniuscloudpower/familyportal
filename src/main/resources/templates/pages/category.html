@@ -33,22 +33,66 @@
         <section class="content">
 
             <!-- Default box -->
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title" th:text="${category.CategoryName}"></h3>
+                    <h3 class="card-title" th:utext="@{|<i class='fas fa-tag'></i> ${category.CategoryName}|}"></h3>
 
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                            <i class="fas fa-times"></i></button>
+                        <ul class="pagination pagination-sm">
+
+                            <li class="page-item"><a  th:href="${prevpage}==0?'javascript:;':@{|/Category?id=${category.Id}&page=${prevpage}|}" class="page-link">«</a></li>
+                            <li class="page-item"><a th:href="${articles.size()}<12?'javascript:;':@{|/Category?id=${category.Id}&page=${nextpage}|}" class="page-link">»</a></li>
+
+                        </ul>
                     </div>
                 </div>
                 <div class="card-body">
-                  <div th:each="article : ${articles}">
-                      <p th:text="${article.Title}"></p>
-                  </div>
+                    <div class="row d-flex align-items-stretch">
+                        <div th:each="article : ${articles}"  class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
+
+                                <div class="card card-widget">
+                                    <div class="card-header">
+                                        <div class="user-block">
+                                            <img class="img-circle" th:src="${article.Author.avatar}" alt="User Image">
+                                            <span class="username"><a th:text="${article.Author.username}" href="#">Jonathan Burke Jr.</a></span>
+                                            <span th:text="@{|Shared publicly - ${article.DateCreated.toLocalDate()} ${article.DateCreated.toLocalTime()} |}" class="description"></span>
+                                        </div>
+                                        <!-- /.user-block -->
+                                        <div class="card-tools">
+
+                                        </div>
+                                        <!-- /.card-tools -->
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div  class="card-body">
+                                        <a th:text="${article.Title}" th:href="@{|/blog/post/${article.Id}|}"></a>
+                                        <!-- post text -->
+                                        <div  th:style="@{|max-height:250px!important;overflow:hidden;margin-bottom:20px|}" th:utext="${article.Description}"></div>
+
+
+
+
+
+                                        <!-- Social sharing buttons -->
+
+                                        <span  class="float-right text-muted"> <span class="badge badge-info" th:text="@{|Rating ${article.AvgRate}|}"></span>  - <span th:text="${article.Comments.size()}">2</span>  comments</span>
+                                    </div>
+                                    <!-- /.card-body -->
+
+                                    <!-- /.card-footer -->
+                                    <div class="card-footer">
+
+                                    </div>
+                                    <!-- /.card-footer -->
+                                </div>
+
+                        </div>
+
+                    </div>
+
+
                 </div>
+
 
             </div>
             <!-- /.card -->

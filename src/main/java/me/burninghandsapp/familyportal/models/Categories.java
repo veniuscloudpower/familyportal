@@ -21,4 +21,7 @@ public class Categories implements Serializable {
     private  String CategoryDescription;
 
 
+    private  Boolean HasArticles;
+
+
 }

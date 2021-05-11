@@ -17,4 +17,7 @@ public interface BlogPostItemsRepository extends JpaRepository<BlogPostItems,Int
 
     @Query(value = "SELECT  * From blog_post_items where  category_id =:CategoryId order by DATE_CREATED DESC  LIMIT :Limit OFFSET :OffSet",nativeQuery = true)
     List<BlogPostItems> findAllByCategory(@Param("CategoryId") Integer CategoryId,@Param("Limit") Integer Limit,@Param("OffSet") Integer OffSet );
+
+    @Query(value="SELECT  * From blog_post_items where Id =:Id",nativeQuery = true)
+    BlogPostItems findOneById(@Param("Id") Integer Id);
 }

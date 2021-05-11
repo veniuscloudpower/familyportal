@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,4 +24,7 @@ public class BlogPostItemComments implements Serializable {
 
     @Column(columnDefinition="TEXT")
     private String CommentText;
+
+    @Column(name = "DateCreated", columnDefinition = "TIMESTAMP")
+    private LocalDateTime DateCreated;
 }

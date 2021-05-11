@@ -5,11 +5,18 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
 public class BlogPostItems implements Serializable {
+
+
+    public  BlogPostItems(){
+        Comments =  new ArrayList<BlogPostItemComments>();
+    }
+
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -36,5 +43,8 @@ public class BlogPostItems implements Serializable {
     private LocalDateTime DateCreated;
 
     private  Integer AvgRate;
+
+    @OneToMany(mappedBy = "BlogItem")
+    private List<BlogPostItemComments> Comments;
 
 }

@@ -31,21 +31,65 @@
         <section class="content">
 
             <!-- Default box -->
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Users</h3>
+                    <h3 class="card-title"><i class="fas fa-user"></i> Users</h3>
 
                     <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fas fa-minus"></i></button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-                            <i class="fas fa-times"></i></button>
+                        <button type="button" data-toggle="modal" data-target="#newuser" class="btn btn-info" >
+                            <i class="fas fa-user-plus"></i> New User</button>
                     </div>
                 </div>
-                <div class="card-body">
-                    Start creating your amazing application!
-                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table m-0">
+                            <thead>
+                            <th></th>
+                            <th>User</th>
+                            <th>email</th>
+                            <th>first name</th>
+                            <th>last name</th>
+                            <th>mobile</th>
+                            <th>role</th>
+                            <th>enabled</th>
 
+                            </thead>
+                            <tbody>
+                            <tr th:each="user: ${users}">
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" onclick="edituser(this)" data-id="${user.Id}" data-email="${user.email}" title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                        <button type="button" onclick="resetpassword(this)" title="reset password" data-id="${user.Id}" class="btn btn-success"><i class="fas fa-user-lock"></i></button>
+                                        <button type="button" onclick="deleteuser(this)" title="delete" data-id="${user.Id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                                <td th:utext="@{|<image src='${user.avatar}' class='img-circle img-size-32 mr-2' />${user.username}|}"></td>
+                                <td th:text="${user.email}"></td>
+                                <td th:text="${user.firstName}"></td>
+                                <td th:text="${user.lastName}"></td>
+                                <td th:text="${user.mobile}"></td>
+                                <td th:text="${user.role}"></td>
+                                <td th:text="${user.enabled?'Yes':'No'}"></td>
+
+
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="7"></td>
+                                <td >
+                                    <ul class="pagination pagination-sm">
+
+                                        <li class="page-item"><a   class="page-link">«</a></li>
+                                        <li class="page-item"><a  class="page-link">»</a></li>
+
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
             <!-- /.card -->
 
@@ -53,6 +97,100 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
+    <!-- modal section -->
+    <div class="modal fade" id="newuser" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><i class="fas fa-user"></i>New user</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="edituser" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit User - <span id="editusername"></span></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="deleteuser" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete user - <span id="deleteusername"></span></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form th:action="@{/DeleteUser}" method="post">
+                <div class="modal-body">
+                    <input id="deleteId" type="hidden" />
+                    <p>Are you sure?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="ressetpassworduser" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Large Modal</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body…</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 </th:block>
 
 <th:block th:fragment="style">
@@ -62,6 +200,24 @@
 
 <th:block th:fragment="script">
     <!-- Page scripts Here  -->
+    <script type="text/javascript">
+
+        function edituser(e)
+        {
+            $('#edituser').modal('show');
+        }
+
+        function resetpassword(e)
+        {
+            $('#ressetpassworduser').modal('show');
+        }
+
+        function deleteuser(e)
+        {
+            $('#deleteuser').modal('show');
+        }
+
+    </script>
 </th:block>
 </body>
 </html>

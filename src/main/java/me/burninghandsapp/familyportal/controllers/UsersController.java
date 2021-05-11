@@ -10,6 +10,8 @@ public class UsersController extends BaseController {
     @GetMapping("/Users")
     public String Index( Model model) {
         getbaseModel(model,"pages/users :: main",4);
+
+        model.addAttribute("users",userRepository.findAll());
         return "Default";
     }
 }

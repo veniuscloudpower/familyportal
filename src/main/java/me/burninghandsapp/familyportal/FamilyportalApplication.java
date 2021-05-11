@@ -8,6 +8,7 @@ public class FamilyportalApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FamilyportalApplication.class, args);
+
 	}
 
 }
