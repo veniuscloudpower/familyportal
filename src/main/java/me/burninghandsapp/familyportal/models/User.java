@@ -18,6 +18,16 @@ import java.time.LocalDateTime;
 @Setter
 public class User implements Serializable {
 
+    public User(String username , String firstName,String lastName)
+    {
+        this.enabled = true;
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName  = lastName;
+        this.avatar = "/img/avatar.png";
+        this.role = "admin";
+    }
+
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +49,7 @@ public class User implements Serializable {
     private  String mobile;
 
 
+    public User() {
 
-
-
+    }
 }
