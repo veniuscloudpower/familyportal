@@ -58,9 +58,9 @@
                             <tr th:each="user: ${users}">
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" onclick="edituser(this)" data-id="${user.Id}" data-email="${user.email}" title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
-                                        <button type="button" onclick="resetpassword(this)" title="reset password" data-id="${user.Id}" class="btn btn-success"><i class="fas fa-user-lock"></i></button>
-                                        <button type="button" onclick="deleteuser(this)" title="delete" data-id="${user.Id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button th:data-enabled="${user.enabled}" th:data-username="${user.username}" th:data-role="${user.role}" th:data-firstname="${user.firstName}" th:data-lastname="${user.lastName}" th:data-email="${user.email}" th:data-mobile="${user.mobile}"  type="button" onclick="edituser(this)" th:data-id="${user.Id}"  title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                        <button th:data-username="${user.username}" type="button" onclick="resetpassword(this)" title="reset password" th:data-id="${user.Id}" class="btn btn-success"><i class="fas fa-user-lock"></i></button>
+                                        <button th:data-username="${user.username}" type="button" onclick="deleteuser(this)" title="delete" th:data-id="${user.Id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </td>
                                 <td th:utext="@{|<image src='${user.avatar}' class='img-circle img-size-32 mr-2' />${user.username}|}"></td>
@@ -108,13 +108,71 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
+                <form th:action="@{/newuser}" method="post">
                 <div class="modal-body">
-                    <p>One fine body…</p>
+
+                    <div class="form-group">
+                        <label for="newusername">Username</label>
+                        <input type="text" class="form-control" id="newusername" name="username" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newpassword">Password</label>
+                        <input type="password" class="form-control" id="newpassword" name="password" required >
+                    </div>
+                    <div class="form-group">
+                        <label for="newpasswordconfirmation">Confirm Password</label>
+                        <input type="password" class="form-control" id="newpasswordconfirmation" name="passwordconfirmation" required >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newfirstname">First Name</label>
+                        <input type="text" class="form-control" id="newfirstname" name="firstName" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newlastname">Last Name</label>
+                        <input type="text" class="form-control" id="newlastname" name="lastName" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newemail">Email</label>
+                        <input type="text" class="form-control" id="newemail" name="email" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newmobile">Mobile</label>
+                        <input type="text" class="form-control" id="newmobile" name="mobile" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newavatar">Avatar</label>
+                        <select id="newavatar" class="form-control" name="avatar" >
+                            <option value="/img/avatar.png">Avatar (Men)</option>
+                            <option value="/img/avatar2.png">Avatar2 (Woman)</option>
+                            <option value="/img/avatar3.png">Avatar3 (Woman)</option>
+                            <option value="/img/avatar04.png">Avatar4 (Men)</option>
+                            <option value="/img/avatar5.png">Avatar5 (Men)</option>
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newrole">Role</label>
+                        <select id="newrole" class="form-control" name="role" >
+                            <option value="Admin">Admin</option>
+                            <option value="User">User</option>
+                        </select>
+                    </div>
+
+
+
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
                 </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -130,13 +188,51 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
+                <form th:action="@{/edituser}" method="post">
+
+
                 <div class="modal-body">
-                    <p>One fine body…</p>
+                    <input id="editId" name="Id" type="hidden" />
+
+                    <div class="form-group">
+                        <label for="editfirstname">First Name</label>
+                        <input type="text" class="form-control" id="editfirstname" name="firstName" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editlastname">Last Name</label>
+                        <input type="text" class="form-control" id="editlastname" name="lastName" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editemail">Email</label>
+                        <input type="text" class="form-control" id="editemail" name="email" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editmobile">Mobile</label>
+                        <input type="text" class="form-control" id="editmobile" name="mobile" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editrole">Role</label>
+                        <select id="editrole" class="form-control" name="role" >
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" id="editenabled" class="form-check-input" name="enabled">
+                        <label class="form-check-label" for="editenabled">Eanbled</label>
+                    </div>
+
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save changes</button>
                 </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -154,7 +250,7 @@
                 </div>
                 <form th:action="@{/DeleteUser}" method="post">
                 <div class="modal-body">
-                    <input id="deleteId" type="hidden" />
+                    <input id="deleteId" name="Id" type="hidden" />
                     <p>Are you sure?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -173,18 +269,30 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Large Modal</h4>
+                    <h4 class="modal-title">Reset password <span id="resetusername"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
+                <form th:action="@{/resetuserpassword}" method="post">
                 <div class="modal-body">
-                    <p>One fine body…</p>
+                    <input id="resetuserId" name="Id" type="hidden" />
+
+                    <div class="form-group">
+                        <label for="newresetpassword">Password</label>
+                        <input type="password" class="form-control" id="newresetpassword" name="password" required >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newresetpasswordconfirmation">Confirm Password</label>
+                        <input type="password" class="form-control" id="newresetpasswordconfirmation" name="passwordconfirmation" required >
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Reset Password</button>
                 </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -202,19 +310,80 @@
     <!-- Page scripts Here  -->
     <script type="text/javascript">
 
+        var newpasswordconfirm = document.getElementById("newpasswordconfirmation");
+        var newpassword = document.getElementById("newpassword");
+
+        var newresetpasswordconfirm = document.getElementById("newresetpasswordconfirmation");
+        var newresetpassword = document.getElementById("newresetpassword");
+
+        function validatepass(){
+
+           if( newpassword.value != newpasswordconfirm.value)
+           {
+               newpasswordconfirm.setCustomValidity('Password does not match');
+           }
+           else
+           {
+               newpasswordconfirm.setCustomValidity('');
+           }
+        }
+
+        function validateresetpass(){
+
+            if( newresetpassword.value != newresetpasswordconfirm.value)
+            {
+                newresetpasswordconfirm.setCustomValidity('Password does not match');
+            }
+            else
+            {
+                newresetpasswordconfirm.setCustomValidity('');
+            }
+        }
+
+
+        newpassword.onchange = validatepass;
+        newpasswordconfirm.onkeyup = validatepass;
+
+        newresetpassword.onchange = validateresetpass;
+        newresetpasswordconfirm.onkeyup = validateresetpass;
+
         function edituser(e)
         {
+            $('#editId').val($(e).data("id"));
+
+
+            $('#editemail').val($(e).data('email'));
+            $('#editfirstname').val($(e).data('firstname'));
+            $('#editlastname').val($(e).data('lastname'));
+            $('#editmobile').val($(e).data('mobile'));
+            $('#editrole').val($(e).data('role'));
+            $('#editrole').trigger('change');
+
+            if($(e).data('enabled')==true){
+                $('#editenabled').prop('checked', true );
+            }
+            else
+            {
+                $('#editenabled').prop('checked', false );
+            }
+
+            $('#editusername').html($(e).data('username'));
+
             $('#edituser').modal('show');
         }
 
         function resetpassword(e)
         {
+            $('#resetusername').html($(e).data('username'));
+            $('#resetuserId').val($(e).data("id"));
             $('#ressetpassworduser').modal('show');
         }
 
         function deleteuser(e)
         {
-            $('#deleteuser').modal('show');
+           $('#deleteId').val($(e).data("id"));
+            $('#deleteusername').html($(e).data('username'));
+           $('#deleteuser').modal('show');
         }
 
     </script>

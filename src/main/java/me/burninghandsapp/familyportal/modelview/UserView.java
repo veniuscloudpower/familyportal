@@ -19,4 +19,5 @@ public class UserView {
     private String firstName;
     private String lastName;
 
+
 }

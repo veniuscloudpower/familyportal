@@ -26,10 +26,12 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String role;
+
+
     private boolean enabled;
 
-
     private  String avatar;
+
     private  String firstName;
     private  String lastName;
 

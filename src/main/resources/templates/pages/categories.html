@@ -54,8 +54,8 @@
                             <tr th:each="category: ${categories}">
                                 <td>
                                 <div class="btn-group">
-                                    <button type="button" th:data-id="${category.Id}" th:data-categorydescription="${category.CategoryDescription}" th:data-categoryname="${category.CategoryName}" onclick="editcategory(this)" title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
-                                    <button type="button" th:if="${category.HasArticles!=true}" title="delete" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                    <button type="button" th:data-title="${category.CategoryName}" th:data-id="${category.Id}" th:data-categorydescription="${category.CategoryDescription}" th:data-categoryname="${category.CategoryName}" onclick="editcategory(this)" title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                    <button type="button" th:data-title="${category.CategoryName}" th:data-id="${category.Id}" th:if="${category.HasArticles!=true}" title="delete" class="btn btn-danger" onclick="deletecategory(this)"><i class="fas fa-trash"></i></button>
 
                                 </div>
                                 </td>
@@ -118,7 +118,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-tags"></i>New category</h4>
+                    <h4 class="modal-title"><i class="fas fa-tags"></i>Edit category - <span id="editcategorytitle"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -151,6 +151,32 @@
     </div>
 
 
+    <div class="modal fade" id="deletecategory" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete category - <span id="deletecategorytitle"></span></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form th:action="@{/DeleteCategory}" method="post">
+                    <div class="modal-body">
+                        <input id="deleteId" name="Id" type="hidden" />
+                        <p>Are you sure?</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
 </th:block>
 
 
@@ -168,7 +194,15 @@
             $('#CategoryEditId').val($(e).data("id"));
             $('#CategoryEditName').val($(e).data("categoryname"));
             $('#CategoryEditDescription').val($(e).data("categorydescription"));
+            $('#editcategorytitle').html($(e).data("title"))
             $('#editcategory').modal('show');
+        }
+
+        function deletecategory(e){
+            $('#deleteId').val($(e).data("id"));
+            $('#deletecategorytitle').html($(e).data("title"))
+            $('#deletecategory').modal('show');
+
         }
 
 

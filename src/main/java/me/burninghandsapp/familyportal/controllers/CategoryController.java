@@ -173,4 +173,11 @@ public class CategoryController extends  BaseController {
         return new RedirectView("/blog/post/"+id);
     }
 
+    @PostMapping("/DeleteCategory")
+    public  RedirectView DeleteCategory(Integer Id, Model model)
+    {
+        categoriesRepository.deleteById(Id);
+        return new RedirectView("/Categories");
+    }
+
 }

@@ -20,4 +20,7 @@ public interface BlogPostItemsRepository extends JpaRepository<BlogPostItems,Int
 
     @Query(value="SELECT  * From blog_post_items where Id =:Id",nativeQuery = true)
     BlogPostItems findOneById(@Param("Id") Integer Id);
+
+    @Query(value = "SELECT  count(*) From blog_post_items where author_user_id =:Author_User_Id",nativeQuery = true)
+    Integer findCountByAuthor(@Param("Author_User_Id") Long Author_User_Id);
 }
