@@ -1,5 +1,6 @@
 package me.burninghandsapp.familyportal.controllers;
 
+import me.burninghandsapp.familyportal.models.User;
 import me.burninghandsapp.familyportal.modelview.UserView;
 import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
 import me.burninghandsapp.familyportal.repositories.UserRepository;
@@ -21,6 +22,24 @@ public class BaseController {
     @Autowired
     UserRepository userRepository;
 
+    User loginUser;
+
+    public BaseController()
+    {
+        loginUser = getLoginUser();
+    }
+
+    User getLoginUser()
+    {
+        if (userRepository!=null)
+        {
+            return userRepository.getUserByUsername(getUserName());
+        }
+        else
+        {
+            return  new User();
+        }
+    }
 
     Model getbaseModel(Model model,String pagesection,int activemenu )
     {
@@ -36,7 +55,7 @@ public class BaseController {
 
        var loginuser = userRepository.getUserByUsername(getUserName());
 
-       var userview = new UserView(loginuser.getUsername(),loginuser.getAvatar(),loginuser.getFirstName(),loginuser.getLastName());
+       var userview = new UserView(loginuser.getUsername(),loginuser.getAvatar(),loginuser.getFirstName(),loginuser.getLastName(),loginuser.getId(),loginuser.isEnabled(),loginuser.getRole());
 
         model.addAttribute("loggedUserDetails",userview);
         return model;

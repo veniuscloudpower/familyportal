@@ -36,7 +36,7 @@
                     <h3 class="card-title"><i class="fas fa-user"></i> Users</h3>
 
                     <div class="card-tools">
-                        <button type="button" data-toggle="modal" data-target="#newuser" class="btn btn-info" >
+                        <button th:if="${loggedUserDetails.enabled!=false}" type="button" data-toggle="modal" data-target="#newuser" class="btn btn-info" >
                             <i class="fas fa-user-plus"></i> New User</button>
                     </div>
                 </div>
@@ -57,10 +57,10 @@
                             <tbody>
                             <tr th:each="user: ${users}">
                                 <td>
-                                    <div class="btn-group">
+                                    <div th:if="${loggedUserDetails.enabled!=false}" class="btn-group">
                                         <button th:data-enabled="${user.enabled}" th:data-username="${user.username}" th:data-role="${user.role}" th:data-firstname="${user.firstName}" th:data-lastname="${user.lastName}" th:data-email="${user.email}" th:data-mobile="${user.mobile}"  type="button" onclick="edituser(this)" th:data-id="${user.Id}"  title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
                                         <button th:data-username="${user.username}" type="button" onclick="resetpassword(this)" title="reset password" th:data-id="${user.Id}" class="btn btn-success"><i class="fas fa-user-lock"></i></button>
-                                        <button th:data-username="${user.username}" type="button" onclick="deleteuser(this)" title="delete" th:data-id="${user.Id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button th:if="${user.enabled!=false}" th:data-username="${user.username}" type="button" onclick="deleteuser(this)" title="delete" th:data-id="${user.Id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </td>
                                 <td th:utext="@{|<image src='${user.avatar}' class='img-circle img-size-32 mr-2' />${user.username}|}"></td>

@@ -36,7 +36,7 @@
                     <h3 class="card-title"><i class="fas fa-puzzle-piece"></i> Categories</h3>
 
                     <div class="card-tools">
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newcategory" >
+                        <button th:if="${loggedUserDetails.enabled!=false}" type="button" class="btn btn-info" data-toggle="modal" data-target="#newcategory" >
                             <i class="fas fa-folder-plus"></i> New Category</button>
 
                     </div>
@@ -53,7 +53,7 @@
                             <tbody>
                             <tr th:each="category: ${categories}">
                                 <td>
-                                <div class="btn-group">
+                                <div th:if="${loggedUserDetails.enabled!=false}" class="btn-group">
                                     <button type="button" th:data-title="${category.CategoryName}" th:data-id="${category.Id}" th:data-categorydescription="${category.CategoryDescription}" th:data-categoryname="${category.CategoryName}" onclick="editcategory(this)" title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
                                     <button type="button" th:data-title="${category.CategoryName}" th:data-id="${category.Id}" th:if="${category.HasArticles!=true}" title="delete" class="btn btn-danger" onclick="deletecategory(this)"><i class="fas fa-trash"></i></button>
 

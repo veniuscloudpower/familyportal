@@ -37,11 +37,11 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/" class="nav-link">Home</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
+            <li th:if="${loggedUserDetails.role=='admin'}" class="nav-item d-none d-sm-inline-block">
                 <a href="/Categories" class="nav-link">Categories</a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="/NewPost" class="nav-link">New Post</a>
+            <li th:if="${loggedUserDetails.enabled!=false}" class="nav-item d-none d-sm-inline-block">
+                <a href="/NewPost" class="nav-link">New article</a>
             </li>
         </ul>
 
@@ -78,7 +78,7 @@
                     <img th:src="${loggedUserDetails.avatar}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="/UserProfile" th:text="${#httpServletRequest.remoteUser}" class="d-block"></a>
+                    <a href="/" th:text="${#httpServletRequest.remoteUser}" class="d-block"></a>
                 </div>
             </div>
 
@@ -98,7 +98,7 @@
                         <a href="#" th:classappend="${m2=='menu-open'?'active':''}" class="nav-link">
                             <i class="fas fa-tags"></i>
                             <p>
-                                Sections
+                                Categories
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -113,15 +113,15 @@
 
 
 
-                    <li class="nav-item">
+                    <li th:if="${loggedUserDetails.role=='admin'}" class="nav-item">
                         <a th:class="@{|nav-link ${m3}|}" href="/Categories">
-                            <i class="fas fa-puzzle-piece"></i> <p>Category List</p>
+                            <i class="fas fa-puzzle-piece"></i> <p>Categories Management</p>
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <li th:if="${loggedUserDetails.role=='admin'}" class="nav-item">
                         <a th:class="@{|nav-link ${m4}|}" href="/Users">
-                            <i class="fas fa-user"></i> <p>Users</p>
+                            <i class="fas fa-user"></i> <p>Users Management</p>
                         </a>
                     </li>
 

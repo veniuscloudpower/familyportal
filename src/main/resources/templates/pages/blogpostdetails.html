@@ -12,13 +12,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Blog Posts</h1>
+                        <h1>Articles</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
                             <li class="breadcrumb-item"><a th:href="@{|/Category?id=${article.Category.Id}|}">Category</a></li>
-                            <li class="breadcrumb-item active">Blog Post</li>
+                            <li class="breadcrumb-item active">Articles</li>
                         </ol>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
     <div class="card-header">
         <div class="user-block">
             <img class="img-circle" th:src="${article.Author.avatar}" alt="User Image">
-            <span class="username"><a th:text="${article.Author.username}" href="#">Jonathan Burke Jr.</a></span>
+            <span class="username"><a th:text="${article.Author.username}" href="#"></a></span>
             <span th:text="@{|Shared publicly - ${article.DateCreated.toLocalDate()} ${article.DateCreated.toLocalTime()} |}" class="description"></span>
         </div>
         <!-- /.user-block -->
@@ -44,9 +44,9 @@
         <a th:text="${article.Title}" th:href="${article.Website}" target="_blank"></a>
         <!-- post text -->
         <p style="height-max:100px;overflow:hidden" th:utext="${article.Description}"></p>
-        <a th:if="${article.Author.username==loggedUserDetails.userName}"  th:href="@{|/EditPost/${article.Id}|}" class="btn btn-default btn-sm"><i class="far fa-edit"></i> Edit</a>
-        <button type="button" class="btn btn-default btn-sm"><i class="fab fa-gratipay"></i> Rate</button>
-        <span  class="float-right text-muted"> <span class="badge badge-info" th:text="@{|Rating ${article.AvgRate}|}"></span>  - <span th:text="${article.Comments.size()}">2</span>  comments</span>
+        <a th:if="${article.Author.username==loggedUserDetails.userName && loggedUserDetails.enabled!=false}"  th:href="@{|/EditPost/${article.Id}|}" class="btn btn-default btn-sm"><i class="far fa-edit"></i> Edit</a>
+        <a th:if="${loggedUserDetails.enabled!=false}" th:href="@{|/RateItem/${article.Id}|}" class="btn btn-default btn-sm"><i class="fab fa-gratipay"></i> Rate</a>
+        <span  class="float-right text-muted"> <span class="badge badge-info" th:text="@{|Rating ${article.AvgRate}|}"></span>  - <span th:text="${article.Comments.size()}"></span>  comments</span>
     </div>
     <!-- /.card-body -->
     <div  class="card-footer card-comments">
@@ -69,7 +69,7 @@
             <!-- /.comment-text -->
         </div>
 
-        <form th:action="@{/CommentsAdd}" method="post">
+        <form th:if="${loggedUserDetails.enabled!=false}" th:action="@{/CommentsAdd}" method="post">
             <img class="img-fluid img-circle img-sm" th:src="${loggedUserDetails.avatar}" alt="Alt Text">
             <!-- .img-push is used to add margin to elements next to floating images -->
             <div class="img-push">
@@ -88,6 +88,8 @@
 </div>
         </section>
     </div>
+
+
 </th:block>
 
 <th:block th:fragment="style">
