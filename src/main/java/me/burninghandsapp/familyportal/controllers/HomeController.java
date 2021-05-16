@@ -25,19 +25,19 @@ public class HomeController extends  BaseController {
     public String Index( Model model) {
         getbaseModel(model,"pages/index :: main",1);
 
-        var loginuser = userRepository.getUserByUsername(getUserName());
+         getLoginUser();
 
-        model.addAttribute("articlescount",blogPostItemsRepository.findCountByAuthor(loginuser.getId()));
+        model.addAttribute("articlescount",blogPostItemsRepository.findCountByAuthor(loginUser.getId()));
 
-        model.addAttribute("commentsCount",blogPostItemCommentsRepository.findCountByAuthor(loginuser.getId()));
+        model.addAttribute("commentsCount",blogPostItemCommentsRepository.findCountByAuthor(loginUser.getId()));
 
-        model.addAttribute("rankingcount",blogPostRatingsRepository.findCountByRateBy(loginuser.getId()));
+        model.addAttribute("rankingcount",blogPostRatingsRepository.findCountByRateBy(loginUser.getId()));
 
-        model.addAttribute("myrecentarticles",blogPostItemsRepository.myRecentArticles(loginuser.getId()));
+        model.addAttribute("myrecentarticles",blogPostItemsRepository.myRecentArticles(loginUser.getId()));
 
-        model.addAttribute("articlestoreview",blogPostItemsRepository.articleToReview(loginuser.getId()));
+        model.addAttribute("articlestoreview",blogPostItemsRepository.articleToReview(loginUser.getId()));
 
-        model.addAttribute("latestreviews",blogPostItemsRepository.myLatestReviewReceived(loginuser.getId()));
+        model.addAttribute("latestreviews",blogPostItemsRepository.myLatestReviewReceived(loginUser.getId()));
 
 
 

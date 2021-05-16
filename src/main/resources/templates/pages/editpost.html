@@ -39,10 +39,16 @@
           </div>
         </div>
 
-        <form  th:action="@{/NewPost}" th:object="${newpost}" method="post" role="form">
+        <form  th:action="@{/save/article/}" th:object="${newpost}" method="post" role="form">
         <div class="card-body">
 
           <input type="hidden" id="Id" th:field="${newpost.Id}" />
+
+          <input type="hidden" id="Author" th:field="${newpost.Author}" />
+
+          <input type="hidden" id="DateCreated" th:field="${newpost.DateCreated}" />
+
+          <input type="hidden" id="AvgRate" th:field="${newpost.AvgRate}" />
 
 
             <div class="form-group">

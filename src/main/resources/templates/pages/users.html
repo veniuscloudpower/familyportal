@@ -103,12 +103,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"><i class="fas fa-user"></i>New user</h4>
+                    <h4 class="modal-title"><i class="fas fa-user"></i> New user</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form th:action="@{/newuser}" method="post">
+                <form th:action="@{/new/user}" method="post">
                 <div class="modal-body">
 
                     <div class="form-group">
@@ -160,8 +160,8 @@
                     <div class="form-group">
                         <label for="newrole">Role</label>
                         <select id="newrole" class="form-control" name="role" >
-                            <option value="Admin">Admin</option>
-                            <option value="User">User</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
                         </select>
                     </div>
 
@@ -183,12 +183,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit User - <span id="editusername"></span></h4>
+                    <h4 class="modal-title"><i class="fas fa-user"></i> Edit User - <span id="editusername"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form th:action="@{/edituser}" method="post">
+                <form th:action="@{/edit/user}" method="post">
 
 
                 <div class="modal-body">
@@ -243,12 +243,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete user - <span id="deleteusername"></span></h4>
+                    <h4 class="modal-title"><i class="fas fa-user"></i> Delete user - <span id="deleteusername"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form th:action="@{/DeleteUser}" method="post">
+                <form th:action="@{/delete/user}" method="post">
                 <div class="modal-body">
                     <input id="deleteId" name="Id" type="hidden" />
                     <p>Are you sure?</p>
@@ -269,12 +269,12 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Reset password <span id="resetusername"></span></h4>
+                    <h4 class="modal-title"><i class="fas fa-user"></i> Reset password <span id="resetusername"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form th:action="@{/resetuserpassword}" method="post">
+                <form th:action="@{/reset/user/password}" method="post">
                 <div class="modal-body">
                     <input id="resetuserId" name="Id" type="hidden" />
 

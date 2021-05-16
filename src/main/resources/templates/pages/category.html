@@ -20,7 +20,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/Categories">Categories</a></li>
+                            <li class="breadcrumb-item"><a href="/categories">Categories</a></li>
                             <li class="breadcrumb-item active"> <span th:text="${category.CategoryName}"></span></li>
 
                         </ol>
@@ -40,8 +40,8 @@
                     <div class="card-tools">
                         <ul class="pagination pagination-sm">
 
-                            <li class="page-item"><a  th:href="${prevpage}==0?'javascript:;':@{|/Category?id=${category.Id}&page=${prevpage}|}" class="page-link">«</a></li>
-                            <li class="page-item"><a th:href="${articles.size()}<12?'javascript:;':@{|/Category?id=${category.Id}&page=${nextpage}|}" class="page-link">»</a></li>
+                            <li class="page-item"><a  th:href="${prevpage}==0?'javascript:;':@{|/list/category/${category.Id}&page=${prevpage}|}" class="page-link">«</a></li>
+                            <li class="page-item"><a th:href="${articles.size()}<12?'javascript:;':@{|/list/category/${category.Id}&page=${nextpage}|}" class="page-link">»</a></li>
 
                         </ul>
                     </div>
@@ -65,7 +65,7 @@
                                     </div>
                                     <!-- /.card-header -->
                                     <div  class="card-body">
-                                        <a th:text="${article.Title}" th:href="@{|/blog/post/${article.Id}|}"></a>
+                                        <a th:text="${article.Title}" th:href="@{|/details/article/${article.Id}|}"></a>
                                         <!-- post text -->
                                         <div  th:style="@{|max-height:250px!important;overflow:hidden;margin-bottom:20px|}" th:utext="${article.Description}"></div>
 

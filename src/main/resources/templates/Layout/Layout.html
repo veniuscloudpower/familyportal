@@ -38,10 +38,10 @@
                 <a href="/" class="nav-link">Home</a>
             </li>
             <li th:if="${loggedUserDetails.role=='admin'}" class="nav-item d-none d-sm-inline-block">
-                <a href="/Categories" class="nav-link">Categories</a>
+                <a href="/categories" class="nav-link">Categories</a>
             </li>
             <li th:if="${loggedUserDetails.enabled!=false}" class="nav-item d-none d-sm-inline-block">
-                <a href="/NewPost" class="nav-link">New article</a>
+                <a href="/new/article" class="nav-link">New article</a>
             </li>
         </ul>
 
@@ -104,7 +104,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li th:each="category: ${categories}" class="nav-item">
-                                <a th:classappend="${category.Id==a2?'active':''}" class="nav-link" th:href="@{|/Category?id=${category.Id}|}"  >
+                                <a th:classappend="${category.Id==a2?'active':''}" class="nav-link" th:href="@{|/list/category/${category.Id}|}"  >
                                     <i class="fas fa-tag"></i> <p th:text="${category.CategoryName}"></p> </a>
 
                             </li>
@@ -114,13 +114,13 @@
 
 
                     <li th:if="${loggedUserDetails.role=='admin'}" class="nav-item">
-                        <a th:class="@{|nav-link ${m3}|}" href="/Categories">
+                        <a th:class="@{|nav-link ${m3}|}" href="/categories">
                             <i class="fas fa-puzzle-piece"></i> <p>Categories Management</p>
                         </a>
                     </li>
 
                     <li th:if="${loggedUserDetails.role=='admin'}" class="nav-item">
-                        <a th:class="@{|nav-link ${m4}|}" href="/Users">
+                        <a th:class="@{|nav-link ${m4}|}" href="/users">
                             <i class="fas fa-user"></i> <p>Users Management</p>
                         </a>
                     </li>

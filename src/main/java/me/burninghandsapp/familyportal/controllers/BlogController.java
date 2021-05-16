@@ -22,7 +22,7 @@ public class BlogController extends  BaseController {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
-    @GetMapping("/blog/post/{id}")
+    @GetMapping("/details/article/{id}")
     public String BlogPostDetails(@PathVariable(value="id") Integer id, Model model)
     {
         getbaseModel(model,"pages/blogpostdetails :: main",-1);
@@ -34,7 +34,7 @@ public class BlogController extends  BaseController {
         return "Default";
     }
 
-    @GetMapping("/NewPost")
+    @GetMapping("/new/article")
     public String NewPost(Model model)
     {
         getbaseModel(model,"pages/newpost :: main",-1);
@@ -44,7 +44,7 @@ public class BlogController extends  BaseController {
         return "Default";
     }
 
-    @GetMapping("/EditPost/{id}")
+    @GetMapping("/edit/article/{id}")
     public String EditBlog(@PathVariable(value="id") Integer id, Model model)
     {
         getbaseModel(model,"pages/editpost :: main",-1);
@@ -57,9 +57,10 @@ public class BlogController extends  BaseController {
         return "Default";
     }
 
-    @PostMapping("/NewPost")
+    @PostMapping("/save/new/article")
     public  RedirectView NewPost(@ModelAttribute BlogPostItems blogPostItems , Model model)
     {
+        getLoginUser();
         blogPostItems.setAuthor(loginUser);
         blogPostItems.setDateCreated(getNow());
         blogPostItems.setAvgRate(0);
@@ -70,14 +71,14 @@ public class BlogController extends  BaseController {
         category.setHasArticles(true);
         categoriesRepository.saveAndFlush(category);
 
-        return new RedirectView("/blog/post/"+id);
+        return new RedirectView("/details/article/"+id);
     }
 
-    @PostMapping("/EditPost")
+    @PostMapping("/save/article")
     public RedirectView EditPost(@ModelAttribute BlogPostItems blogPostItems , Model model)
     {
         blogPostItemsRepository.saveAndFlush(blogPostItems);
         var id = String.valueOf( blogPostItems.getId());
-        return new RedirectView("/blog/post/"+id);
+        return new RedirectView("/details/article/"+id);
     }
 }

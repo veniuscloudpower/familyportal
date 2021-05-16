@@ -29,15 +29,15 @@ public class CategoryController extends  BaseController {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
-    @GetMapping("/Categories")
+    @GetMapping("/categories")
     public  String Categories(Model model)
     {
         getbaseModel(model,"pages/categories :: main",3);
         return "Default";
     }
 
-    @GetMapping("/Category")
-    public String Category(@RequestParam Integer id, @RequestParam(defaultValue = "1") Integer page, Model model)
+    @GetMapping("/list/category/{id}")
+    public String Category(@PathVariable(value="id") Integer id, @RequestParam(defaultValue = "1") Integer page, Model model)
     {
         getbaseModel(model,"pages/category :: main",2);
         var category = categoryRepository.getOne(id);
@@ -56,7 +56,7 @@ public class CategoryController extends  BaseController {
 
 
 
-    @PostMapping("/newcategory")
+    @PostMapping("/new/category")
     public RedirectView newcategory(String CategoryName,String CategoryDescription,Model model)
     {
         Categories category = new Categories();
@@ -65,10 +65,10 @@ public class CategoryController extends  BaseController {
         category.setHasArticles(false);
         categoriesRepository.saveAndFlush(category);
 
-        return new RedirectView("/Categories");
+        return new RedirectView("/categories");
     }
 
-    @PostMapping("/editcategory")
+    @PostMapping("/edit/category")
     public RedirectView editcategory(String CategoryName,String CategoryDescription,Integer Id,Model model)
     {
         Categories category = categoryRepository.findById(Id).get();
@@ -76,15 +76,15 @@ public class CategoryController extends  BaseController {
         category.setCategoryDescription(CategoryDescription);
         categoriesRepository.saveAndFlush(category);
 
-        return new RedirectView("/Categories");
+        return new RedirectView("/categories");
     }
 
 
-    @PostMapping("/DeleteCategory")
+    @PostMapping("/delete/category")
     public  RedirectView DeleteCategory(Integer Id, Model model)
     {
         categoriesRepository.deleteById(Id);
-        return new RedirectView("/Categories");
+        return new RedirectView("/categories");
     }
 
 }

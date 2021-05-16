@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <form  th:action="@{/CreateOrSaveRatting}" th:object="${rateobject}" method="post" role="form">
+        <form  th:action="@{/save/rate}" th:object="${rateobject}" method="post" role="form">
         <div class="card-body">
 
           <input type="hidden" id="Id" th:field="${rateobject.Id}" />

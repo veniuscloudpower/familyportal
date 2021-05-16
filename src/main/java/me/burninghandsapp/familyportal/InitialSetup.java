@@ -23,6 +23,9 @@ public class InitialSetup implements CommandLineRunner {
             User initialUser  = new User("user","user","user");
             
             initialUser.setPassword(webSecurityConfig.passwordEncoder().encode("user"));
+
+            initialUser.setRole("admin");
+            initialUser.setEnabled(true);
             
             userRepository.save(initialUser);
 

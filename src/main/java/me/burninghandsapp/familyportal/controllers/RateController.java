@@ -22,12 +22,12 @@ public class RateController extends  BaseController {
     private BlogPostRatingsRepository blogPostRatingsRepository;
 
 
-    @GetMapping("/RateItem/{id}")
+    @GetMapping("/rate/article/{id}")
     public String RateItem(@PathVariable(value="id") Integer id, Model model)
     {
         getbaseModel(model,"pages/ratepost :: main",-1);
 
-
+        getLoginUser();
 
         //get the item or new rateobject
         var rateCount =  blogPostRatingsRepository.findCountByRateByAndBlog(id,loginUser.getId());
@@ -49,7 +49,7 @@ public class RateController extends  BaseController {
     }
 
 
-    @PostMapping("CreateOrSaveRatting")
+    @PostMapping("/save/rate")
     public RedirectView DeleteCategory(@ModelAttribute BlogPostRatings blogPostRatings, Model model)
     {
         blogPostRatingsRepository.saveAndFlush(blogPostRatings);
@@ -63,7 +63,7 @@ public class RateController extends  BaseController {
 
         blogPostItemsRepository.saveAndFlush(blogItem);
 
-        return new RedirectView("/blog/post/"+blogPostRatings.getBlogItem().getId());
+        return new RedirectView("/details/article/"+blogPostRatings.getBlogItem().getId());
     }
 
 

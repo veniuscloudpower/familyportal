@@ -40,6 +40,7 @@ public class User implements Serializable {
 
     private boolean enabled;
 
+    @Column(columnDefinition = "text")
     private  String avatar;
 
     private  String firstName;

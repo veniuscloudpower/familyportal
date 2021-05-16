@@ -18,9 +18,10 @@ public class CommentController extends  BaseController {
     @Autowired
     private BlogPostItemsRepository blogPostItemsRepository;
 
-    @PostMapping("/CommentsAdd")
+    @PostMapping("/comments/add")
     public RedirectView CommentAdd(String commenttext, int blogId , Model model)
     {
+        getLoginUser();
         BlogPostItemComments comments = new BlogPostItemComments();
         comments.setCommentText(commenttext);
         comments.setAuthor(loginUser);
@@ -36,6 +37,6 @@ public class CommentController extends  BaseController {
         blogPostItemCommentsRepository.saveAndFlush(comments);
 
         var id = String.valueOf( blogId);
-        return new RedirectView("/blog/post/"+id);
+        return new RedirectView("/details/article/"+id);
     }
 }

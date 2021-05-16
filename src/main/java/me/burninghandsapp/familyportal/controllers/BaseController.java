@@ -26,19 +26,14 @@ public class BaseController {
 
     public BaseController()
     {
-        loginUser = getLoginUser();
     }
+
+
 
     User getLoginUser()
     {
-        if (userRepository!=null)
-        {
-            return userRepository.getUserByUsername(getUserName());
-        }
-        else
-        {
-            return  new User();
-        }
+          loginUser = userRepository.getUserByUsername(getUserName());
+          return loginUser;
     }
 
     Model getbaseModel(Model model,String pagesection,int activemenu )
@@ -64,6 +59,11 @@ public class BaseController {
     public    String getUserName()
     {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal == null)
+        {
+            return  "";
+        }
 
         if (principal instanceof UserDetails) {
             String username = ((UserDetails)principal).getUsername();
