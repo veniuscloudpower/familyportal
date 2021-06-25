@@ -1,9 +1,7 @@
 package me.burninghandsapp.familyportal.controllers;
 
 
-import me.burninghandsapp.familyportal.repositories.BlogPostItemCommentsRepository;
-import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
-import me.burninghandsapp.familyportal.repositories.BlogPostRatingsRepository;
+import me.burninghandsapp.familyportal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,18 +10,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController extends  BaseController {
 
-    @Autowired
-    private BlogPostItemsRepository blogPostItemsRepository;
+    private final BlogPostItemsRepository blogPostItemsRepository;
+
+    private final BlogPostItemCommentsRepository blogPostItemCommentsRepository;
+
+    private final BlogPostRatingsRepository blogPostRatingsRepository;
+
+    public static final String HOME_PAGE ="pages/index :: main";
 
     @Autowired
-    private BlogPostItemCommentsRepository blogPostItemCommentsRepository;
-
-    @Autowired
-    private BlogPostRatingsRepository blogPostRatingsRepository;
+    public HomeController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, BlogPostItemCommentsRepository blogPostItemCommentsRepository, BlogPostRatingsRepository blogPostRatingsRepository) {
+        super(categoryRepository, userRepository);
+        this.blogPostItemsRepository = blogPostItemsRepository;
+        this.blogPostItemCommentsRepository = blogPostItemCommentsRepository;
+        this.blogPostRatingsRepository = blogPostRatingsRepository;
+    }
 
     @GetMapping("/")
-    public String Index( Model model) {
-        getbaseModel(model,"pages/index :: main",1);
+    public String getHomeAction( Model model) {
+        getBaseModel(model,HOME_PAGE,1);
 
          getLoginUser();
 
@@ -41,7 +46,7 @@ public class HomeController extends  BaseController {
 
 
 
-        return "Default";
+        return DEFAULT_PAGE;
     }
 
 

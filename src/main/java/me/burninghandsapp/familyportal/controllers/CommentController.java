@@ -1,8 +1,11 @@
 package me.burninghandsapp.familyportal.controllers;
 
 import me.burninghandsapp.familyportal.models.BlogPostItemComments;
+import me.burninghandsapp.familyportal.models.User;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemCommentsRepository;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
+import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
+import me.burninghandsapp.familyportal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,19 +15,28 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class CommentController extends  BaseController {
 
-    @Autowired
-    private BlogPostItemCommentsRepository blogPostItemCommentsRepository;
+    private final BlogPostItemCommentsRepository blogPostItemCommentsRepository;
+
+    private final BlogPostItemsRepository blogPostItemsRepository;
 
     @Autowired
-    private BlogPostItemsRepository blogPostItemsRepository;
+    public CommentController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemCommentsRepository blogPostItemCommentsRepository, BlogPostItemsRepository blogPostItemsRepository) {
+        super(categoryRepository, userRepository);
+        this.blogPostItemCommentsRepository = blogPostItemCommentsRepository;
+        this.blogPostItemsRepository = blogPostItemsRepository;
+    }
 
     @PostMapping("/comments/add")
-    public RedirectView CommentAdd(String commenttext, int blogId , Model model)
+    public RedirectView commentAdd(String commentText, int blogId , Model model)
     {
         getLoginUser();
-        BlogPostItemComments comments = new BlogPostItemComments();
-        comments.setCommentText(commenttext);
-        comments.setAuthor(loginUser);
+        var comments = new BlogPostItemComments();
+        comments.setCommentText(commentText);
+
+        var author = new User();
+        mapper.map(loginUser,author);
+
+        comments.setAuthor(author);
 
         comments.setDateCreated(getNow());
         var blog = blogPostItemsRepository.findById(blogId);

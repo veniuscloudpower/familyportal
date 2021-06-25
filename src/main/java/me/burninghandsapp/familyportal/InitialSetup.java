@@ -10,17 +10,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitialSetup implements CommandLineRunner {
 
-    @Autowired
+    final
     UserRepository userRepository;
 
-    @Autowired
+    final
     WebSecurityConfig webSecurityConfig;
+
+    @Autowired
+    public InitialSetup(UserRepository userRepository, WebSecurityConfig webSecurityConfig) {
+        this.userRepository = userRepository;
+        this.webSecurityConfig = webSecurityConfig;
+    }
 
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.count()==0)
         {
-            User initialUser  = new User("user","user","user");
+            var initialUser  = new User("user","user","user");
             
             initialUser.setPassword(webSecurityConfig.passwordEncoder().encode("user"));
 

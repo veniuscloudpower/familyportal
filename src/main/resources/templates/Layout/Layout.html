@@ -104,8 +104,8 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li th:each="category: ${categories}" class="nav-item">
-                                <a th:classappend="${category.Id==a2?'active':''}" class="nav-link" th:href="@{|/list/category/${category.Id}|}"  >
-                                    <i class="fas fa-tag"></i> <p th:text="${category.CategoryName}"></p> </a>
+                                <a th:classappend="${category.id==a2?'active':''}" class="nav-link" th:href="@{|/list/category/${category.id}|}"  >
+                                    <i class="fas fa-tag"></i> <p th:text="${category.categoryName}"></p> </a>
 
                             </li>
                         </ul>

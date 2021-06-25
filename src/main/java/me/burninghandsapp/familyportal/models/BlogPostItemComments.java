@@ -14,17 +14,17 @@ public class BlogPostItemComments implements Serializable {
 
     @javax.persistence.Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private  int Id;
+    private  int id;
 
     @ManyToOne
-    private BlogPostItems BlogItem;
+    private BlogPostItems blogItem;
 
     @ManyToOne
-    private  User Author;
+    private  User author;
 
     @Column(columnDefinition="TEXT")
-    private String CommentText;
+    private String commentText;
 
     @Column(name = "DateCreated", columnDefinition = "TIMESTAMP")
-    private LocalDateTime DateCreated;
+    private LocalDateTime dateCreated;
 }

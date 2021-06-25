@@ -18,7 +18,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">Rate article - <span th:text="${rateobject.BlogItem.Title}"></span></li>
+              <li class="breadcrumb-item active">Rate article - <span th:text="${rateobject.blogItem.title}"></span></li>
             </ol>
           </div>
         </div>
@@ -31,7 +31,7 @@
       <!-- Default box -->
       <div class="card card-outline card-primary">
         <div class="card-header">
-          <h3 class="card-title"><i class="fas fa-blog"></i> Rate article - <span th:text="${rateobject.BlogItem.Title}"></span></h3>
+          <h3 class="card-title"><i class="fas fa-blog"></i> Rate article - <span th:text="${rateobject.blogItem.title}"></span></h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
@@ -42,14 +42,14 @@
         <form  th:action="@{/save/rate}" th:object="${rateobject}" method="post" role="form">
         <div class="card-body">
 
-          <input type="hidden" id="Id" th:field="${rateobject.Id}" />
-          <input type="hidden" id="RateBy" th:field="${rateobject.RateBy}" />
-          <input type="hidden" id="BlogItem" th:field="${rateobject.BlogItem}" />
+          <input type="hidden" id="id" th:field="${rateobject.id}" />
+          <input type="hidden" id="rateBy" th:field="${{rateobject.rateBy.id}}" />
+          <input type="hidden" id="blogItem" th:field="${{rateobject.blogItem.id}}" />
 
 
           <div class="form-group">
             <label for="Rate">Rate</label>
-            <input type="text" class="form-control" th:field="${rateobject.Rate}" id="Rate">
+            <input type="text" class="form-control" th:field="${rateobject.rate}" id="rate">
           </div>
 
 

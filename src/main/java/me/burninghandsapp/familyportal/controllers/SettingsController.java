@@ -1,5 +1,8 @@
 package me.burninghandsapp.familyportal.controllers;
 
+import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
+import me.burninghandsapp.familyportal.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,10 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SettingsController extends BaseController {
 
+    public  static  final String SETTINGS_PAGE = "pages/settings :: main";
+
+    @Autowired
+    public SettingsController(CategoriesRepository categoryRepository, UserRepository userRepository) {
+        super(categoryRepository, userRepository);
+    }
+
     @GetMapping("/Settings")
-    public String Index( Model model) {
-        getbaseModel(model,"pages/settings :: main",5);
-        return "Default";
+    public String getSettings( Model model) {
+        getBaseModel(model,SETTINGS_PAGE,5);
+        return DEFAULT_PAGE;
     }
 
 }

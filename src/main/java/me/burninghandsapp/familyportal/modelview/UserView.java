@@ -7,15 +7,6 @@ import lombok.Setter;
 @Setter
 public class UserView {
 
-    public  UserView(String userName , String avatar,String firstName,String lastName, Long id, boolean enabled,String role){
-        this.avatar = avatar;
-        this.userName= userName;
-        this.firstName= firstName;
-        this.lastName=lastName;
-        this.id=id;
-        this.enabled = enabled;
-        this.role = role;
-    }
 
     private String avatar;
     private String userName;

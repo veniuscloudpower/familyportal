@@ -1,8 +1,13 @@
 package me.burninghandsapp.familyportal.controllers;
 
+import me.burninghandsapp.familyportal.modeldto.BlogPostItemsDto;
+import me.burninghandsapp.familyportal.modeldto.BlogPostRatingsDto;
 import me.burninghandsapp.familyportal.models.BlogPostRatings;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
 import me.burninghandsapp.familyportal.repositories.BlogPostRatingsRepository;
+import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
+import me.burninghandsapp.familyportal.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,55 +20,70 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class RateController extends  BaseController {
 
-    @Autowired
-    private BlogPostItemsRepository blogPostItemsRepository;
+    private final BlogPostItemsRepository blogPostItemsRepository;
+
+    private final BlogPostRatingsRepository blogPostRatingsRepository;
 
     @Autowired
-    private BlogPostRatingsRepository blogPostRatingsRepository;
+    public RateController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, BlogPostRatingsRepository blogPostRatingsRepository) {
+        super(categoryRepository, userRepository);
+        this.blogPostItemsRepository = blogPostItemsRepository;
+        this.blogPostRatingsRepository = blogPostRatingsRepository;
+    }
 
 
     @GetMapping("/rate/article/{id}")
-    public String RateItem(@PathVariable(value="id") Integer id, Model model)
+    public String getRateItem(@PathVariable(value="id") Integer id, Model model)
     {
-        getbaseModel(model,"pages/ratepost :: main",-1);
+        getBaseModel(model,"pages/ratepost :: main",-1);
 
         getLoginUser();
 
         //get the item or new rateobject
         var rateCount =  blogPostRatingsRepository.findCountByRateByAndBlog(id,loginUser.getId());
-        BlogPostRatings rateobj = new BlogPostRatings();
+        var rateobj = new BlogPostRatingsDto();
         if(rateCount == 0)
         {
+            var blogItem = blogPostItemsRepository.getOne(id);
+            var blogDto = new BlogPostItemsDto();
+            mapper.map(blogItem,blogDto);
+            rateobj.setBlogItem(blogDto);
 
-            rateobj.setBlogItem(blogPostItemsRepository.getOne(id));
+
+
             rateobj.setRateBy(loginUser);
             rateobj.setRate(0);
         }
         else
         {
-            rateobj = blogPostRatingsRepository.findByBlog(id, loginUser.getId());
+          var  rateobjRetrieved = blogPostRatingsRepository.findByBlog(id, loginUser.getId());
+          mapper.map(rateobjRetrieved,rateobj);
+
         }
         model.addAttribute("rateobject",rateobj);
 
-        return  "Default";
+        return  DEFAULT_PAGE;
     }
 
 
     @PostMapping("/save/rate")
-    public RedirectView DeleteCategory(@ModelAttribute BlogPostRatings blogPostRatings, Model model)
+    public RedirectView saveRateItem(@ModelAttribute BlogPostRatingsDto blogPostRatings, Model model)
     {
-        blogPostRatingsRepository.saveAndFlush(blogPostRatings);
+        var blogRate = new BlogPostRatings();
+        var mapper = new ModelMapper();
+        mapper.map(blogPostRatings,blogRate);
+        blogPostRatingsRepository.saveAndFlush(blogRate);
 
 
-        var avgRate=  blogPostRatingsRepository.findAvgByBlog(blogPostRatings.getBlogItem().getId());
+        var avgRate=  blogPostRatingsRepository.findAvgByBlog(blogRate.getBlogItem().getId());
 
-        var blogItem = blogPostItemsRepository.findOneById(blogPostRatings.getBlogItem().getId());
+        var blogItem = blogPostItemsRepository.findOneById(blogRate.getBlogItem().getId());
 
         blogItem.setAvgRate(avgRate);
 
         blogPostItemsRepository.saveAndFlush(blogItem);
 
-        return new RedirectView("/details/article/"+blogPostRatings.getBlogItem().getId());
+        return new RedirectView("/details/article/"+blogRate.getBlogItem().getId());
     }
 
 

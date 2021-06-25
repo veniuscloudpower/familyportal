@@ -2,10 +2,7 @@ package me.burninghandsapp.familyportal.controllers;
 
 
 import me.burninghandsapp.familyportal.models.Categories;
-import me.burninghandsapp.familyportal.repositories.BlogPostItemCommentsRepository;
-import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
-import me.burninghandsapp.familyportal.repositories.BlogPostRatingsRepository;
-import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
+import me.burninghandsapp.familyportal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,29 +14,32 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class CategoryController extends  BaseController {
 
-    @Autowired
-    private BlogPostItemsRepository blogPostItemsRepository;
+    private final BlogPostItemsRepository blogPostItemsRepository;
+
+    public static final  String CATEGORY_LIST_PAGE = "pages/categories :: main";
+
+    public static final String CATEGORY_PAGE = "pages/category :: main";
+
+    public static  final  String CATEGORIES_LIST_URL = "/categories";
+
 
     @Autowired
-    private BlogPostItemCommentsRepository blogPostItemCommentsRepository;
-
-    @Autowired
-    private BlogPostRatingsRepository blogPostRatingsRepository;
-
-    @Autowired
-    private CategoriesRepository categoriesRepository;
+    public CategoryController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository) {
+        super(categoryRepository, userRepository);
+        this.blogPostItemsRepository = blogPostItemsRepository;
+    }
 
     @GetMapping("/categories")
-    public  String Categories(Model model)
+    public  String getCategoriesList(Model model)
     {
-        getbaseModel(model,"pages/categories :: main",3);
-        return "Default";
+        getBaseModel(model,CATEGORY_LIST_PAGE,3);
+        return DEFAULT_PAGE;
     }
 
     @GetMapping("/list/category/{id}")
-    public String Category(@PathVariable(value="id") Integer id, @RequestParam(defaultValue = "1") Integer page, Model model)
+    public String getCategory(@PathVariable(value="id") Integer id, @RequestParam(defaultValue = "1") Integer page, Model model)
     {
-        getbaseModel(model,"pages/category :: main",2);
+        getBaseModel(model,CATEGORY_PAGE,2);
         var category = categoryRepository.getOne(id);
         model.addAttribute("category",category);
 
@@ -51,40 +51,45 @@ public class CategoryController extends  BaseController {
 
          model.addAttribute("articles", blogPostItemsRepository.findAllByCategory(id,12,(12*(page-1))));
 
-        return "Default";
+        return DEFAULT_PAGE;
     }
 
 
 
     @PostMapping("/new/category")
-    public RedirectView newcategory(String CategoryName,String CategoryDescription,Model model)
+    public RedirectView newCategory(String categoryName,String categoryDescription)
     {
-        Categories category = new Categories();
-        category.setCategoryName(CategoryName);
-        category.setCategoryDescription(CategoryDescription);
+        var category = new Categories();
+        category.setCategoryName(categoryName);
+        category.setCategoryDescription(categoryDescription);
         category.setHasArticles(false);
-        categoriesRepository.saveAndFlush(category);
+        categoryRepository.saveAndFlush(category);
 
-        return new RedirectView("/categories");
+        return new RedirectView(CATEGORIES_LIST_URL);
     }
 
     @PostMapping("/edit/category")
-    public RedirectView editcategory(String CategoryName,String CategoryDescription,Integer Id,Model model)
+    public RedirectView editCategory(String categoryName,String categoryDescription,Integer id)
     {
-        Categories category = categoryRepository.findById(Id).get();
-        category.setCategoryName(CategoryName);
-        category.setCategoryDescription(CategoryDescription);
-        categoriesRepository.saveAndFlush(category);
+        var objectCategory = categoryRepository.findById(id);
+        if(objectCategory.isPresent())
+        {
+            var category = objectCategory.get();
+            category.setCategoryName(categoryName);
+            category.setCategoryDescription(categoryDescription);
+            categoryRepository.saveAndFlush(category);
+        }
 
-        return new RedirectView("/categories");
+
+        return new RedirectView(CATEGORIES_LIST_URL);
     }
 
 
     @PostMapping("/delete/category")
-    public  RedirectView DeleteCategory(Integer Id, Model model)
+    public  RedirectView deleteCategory(Integer id)
     {
-        categoriesRepository.deleteById(Id);
-        return new RedirectView("/categories");
+        categoryRepository.deleteById(id);
+        return new RedirectView(CATEGORIES_LIST_URL);
     }
 
 }

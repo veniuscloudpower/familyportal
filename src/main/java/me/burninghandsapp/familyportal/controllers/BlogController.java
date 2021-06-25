@@ -1,9 +1,11 @@
 package me.burninghandsapp.familyportal.controllers;
 
 
+import me.burninghandsapp.familyportal.modeldto.BlogPostItemsDto;
 import me.burninghandsapp.familyportal.models.BlogPostItems;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
 import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
+import me.burninghandsapp.familyportal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,58 +18,79 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class BlogController extends  BaseController {
 
-    @Autowired
-    private BlogPostItemsRepository blogPostItemsRepository;
+    private final BlogPostItemsRepository blogPostItemsRepository;
+
+    private final CategoriesRepository categoriesRepository;
+
+    public static final  String BLOG_POST_DETAILS_PAGE = "pages/blogpostdetails :: main";
+
+    public static final  String NEW_POST_PAGE = "pages/newpost :: main";
+
+    public  static final String EDIT_POST_PAGE = "pages/editpost :: main";
+
 
     @Autowired
-    private CategoriesRepository categoriesRepository;
+    public BlogController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, CategoriesRepository categoriesRepository) {
+        super(categoryRepository, userRepository);
+        this.blogPostItemsRepository = blogPostItemsRepository;
+        this.categoriesRepository = categoriesRepository;
+    }
 
     @GetMapping("/details/article/{id}")
-    public String BlogPostDetails(@PathVariable(value="id") Integer id, Model model)
+    public String getBlogPostDetails(@PathVariable(value="id") Integer id, Model model)
     {
-        getbaseModel(model,"pages/blogpostdetails :: main",-1);
+        getBaseModel(model,BLOG_POST_DETAILS_PAGE,-1);
 
         var blogpost = blogPostItemsRepository.findOneById(id);
 
         model.addAttribute("article", blogpost);
 
-        return "Default";
+        return DEFAULT_PAGE;
     }
 
     @GetMapping("/new/article")
-    public String NewPost(Model model)
+    public String getNewPost(Model model)
     {
-        getbaseModel(model,"pages/newpost :: main",-1);
+        getBaseModel(model,NEW_POST_PAGE,-1);
 
         model.addAttribute("newpost",new BlogPostItems());
 
-        return "Default";
+        return DEFAULT_PAGE;
     }
 
     @GetMapping("/edit/article/{id}")
-    public String EditBlog(@PathVariable(value="id") Integer id, Model model)
+    public String getEditBlog(@PathVariable(value="id") Integer id, Model model)
     {
-        getbaseModel(model,"pages/editpost :: main",-1);
+        getBaseModel(model,EDIT_POST_PAGE,-1);
         var blogpost = blogPostItemsRepository.findOneById(id);
-        model.addAttribute("newpost",blogpost);
+
+        var editBlogDto = new BlogPostItemsDto();
+        mapper.map(blogpost,editBlogDto);
+
+        model.addAttribute("newpost",editBlogDto);
         var category = blogpost.getCategory();
         category.setHasArticles(true);
         categoriesRepository.saveAndFlush(category);
 
-        return "Default";
+        return DEFAULT_PAGE;
     }
 
     @PostMapping("/save/new/article")
-    public  RedirectView NewPost(@ModelAttribute BlogPostItems blogPostItems , Model model)
+    public  RedirectView newPost(@ModelAttribute BlogPostItemsDto blogPostItems , Model model)
     {
         getLoginUser();
         blogPostItems.setAuthor(loginUser);
-        blogPostItems.setDateCreated(getNow());
-        blogPostItems.setAvgRate(0);
-        blogPostItemsRepository.saveAndFlush(blogPostItems);
-        var id = String.valueOf( blogPostItems.getId());
+        var blogItem = new BlogPostItems();
 
-        var category = blogPostItems.getCategory();
+
+        mapper.map(blogPostItems,blogItem);
+
+        blogItem.setDateCreated(getNow());
+        blogItem.setAvgRate(0);
+        blogPostItemsRepository.saveAndFlush(blogItem);
+        var id = String.valueOf( blogItem.getId());
+
+        var category = blogItem.getCategory();
         category.setHasArticles(true);
         categoriesRepository.saveAndFlush(category);
 
@@ -75,10 +98,16 @@ public class BlogController extends  BaseController {
     }
 
     @PostMapping("/save/article")
-    public RedirectView EditPost(@ModelAttribute BlogPostItems blogPostItems , Model model)
+    public RedirectView editPost(@ModelAttribute BlogPostItemsDto blogPostItems , Model model)
     {
-        blogPostItemsRepository.saveAndFlush(blogPostItems);
-        var id = String.valueOf( blogPostItems.getId());
+        getLoginUser();
+        blogPostItems.setAuthor(loginUser);
+
+        var blogPost = new BlogPostItems();
+        mapper.map(blogPostItems,blogPost);
+
+        blogPostItemsRepository.saveAndFlush(blogPost);
+        var id = String.valueOf( blogPost.getId());
         return new RedirectView("/details/article/"+id);
     }
 }

@@ -72,12 +72,12 @@
                                     <li class="item">
                                         <a th:href="@{|/details/article/${review.id}|}">
                                         <div class="product-img">
-                                            <img th:src="${review.Author.avatar}" alt="author" th:title="${review.Author.username}" class="img-size-50">
+                                            <img th:src="${review.author.avatar}" alt="author" th:title="${review.author.userName}" class="img-size-50">
                                         </div>
                                         <div class="product-info">
-                                            <span th:text="${review.category.CategoryName}"  class="product-title">
-                                                <span th:text="${review.AvgRate}" class="badge badge-info float-right"></span></span>
-                                            <span th:text="${review.Title}" class="product-description">
+                                            <span th:text="${review.category.categoryName}"  class="product-title">
+                                                <span th:text="${review.avgRate}" class="badge badge-info float-right"></span></span>
+                                            <span th:text="${review.title}" class="product-description">
 
                                            </span>
                                         </div>
@@ -104,19 +104,19 @@
                                     <li class="item">
                                         <a th:href="@{|/details/article/${article.id}|}">
                                             <div class="product-img">
-                                                <img th:src="${article.Author.avatar}" alt="author" th:title="${article.Author.username}" class="img-size-50">
+                                                <img th:src="${article.author.avatar}" alt="author" th:title="${article.author.userName}" class="img-size-50">
                                             </div>
                                             <div class="product-info">
-                                            <span th:text="${article.category.CategoryName}"  class="product-title">
-                                                <span th:text="${article.AvgRate}" class="badge badge-info float-right"></span></span>
-                                                <span th:text="${article.Title}" class="product-description">
+                                            <span th:text="${article.category.categoryName}"  class="product-title">
+                                                <span th:text="${article.avgRate}" class="badge badge-info float-right"></span></span>
+                                                <span th:text="${article.title}" class="product-description">
 
                                            </span>
 
 
                                             </div>
                                         </a>
-                                        <div style="height:30px!important;overflow:hidden;margin-top:10px" th:utext="${article.Description}">
+                                        <div style="height:30px!important;overflow:hidden;margin-top:10px" th:utext="${article.description}">
 
                                         </div>
                                     </li>
@@ -142,19 +142,19 @@
                                     <li class="item">
                                         <a th:href="@{|/details/article/${myarticle.id}|}">
                                             <div class="product-img">
-                                                <img th:src="${myarticle.Author.avatar}" alt="author" th:title="${myarticle.Author.username}" class="img-size-50">
+                                                <img th:src="${myarticle.author.avatar}" alt="author" th:title="${myarticle.author.userName}" class="img-size-50">
                                             </div>
                                             <div class="product-info">
-                                            <span th:text="${myarticle.category.CategoryName}"  class="product-title">
-                                                <span th:text="${myarticle.AvgRate}" class="badge badge-info float-right"></span></span>
-                                                <span th:text="${myarticle.Title}" class="product-description">
+                                            <span th:text="${myarticle.category.categoryName}"  class="product-title">
+                                                <span th:text="${myarticle.avgRate}" class="badge badge-info float-right"></span></span>
+                                                <span th:text="${myarticle.title}" class="product-description">
 
                                            </span>
 
 
                                             </div>
                                         </a>
-                                        <div style="height:30px!important;overflow:hidden;margin-top:10px" th:utext="${myarticle.Description}">
+                                        <div style="height:30px!important;overflow:hidden;margin-top:10px" th:utext="${myarticle.description}">
 
                                         </div>
                                     </li>

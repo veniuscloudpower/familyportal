@@ -14,13 +14,13 @@ public class BlogPostItems implements Serializable {
 
 
     public  BlogPostItems(){
-        Comments =  new ArrayList<BlogPostItemComments>();
+        comments =  new ArrayList<>();
     }
 
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private  int Id;
+    private  int id;
 
 
     @ManyToOne
@@ -28,23 +28,23 @@ public class BlogPostItems implements Serializable {
     private Categories category;
 
     @Column(length = 150)
-    private String  Title;
+    private String  title;
 
     @Column(columnDefinition="TEXT")
-    private  String Description;
+    private  String description;
 
     @Column(length = 1500)
-    private  String Website;
+    private  String website;
 
     @ManyToOne
-    private  User Author;
+    private  User author;
 
-    @Column(name = "DateCreated", columnDefinition = "TIMESTAMP")
-    private LocalDateTime DateCreated;
+    @Column(name = "dateCreated", columnDefinition = "TIMESTAMP")
+    private LocalDateTime dateCreated;
 
-    private  Integer AvgRate;
+    private  Integer avgRate;
 
-    @OneToMany(mappedBy = "BlogItem")
-    private List<BlogPostItemComments> Comments;
+    @OneToMany(mappedBy = "blogItem")
+    private List<BlogPostItemComments> comments;
 
 }

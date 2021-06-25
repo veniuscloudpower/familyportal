@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "users")
@@ -18,10 +18,10 @@ import java.time.LocalDateTime;
 @Setter
 public class User implements Serializable {
 
-    public User(String username , String firstName,String lastName)
+    public User(String userName , String firstName,String lastName)
     {
         this.enabled = true;
-        this.username = username;
+        this.userName = userName;
         this.firstName = firstName;
         this.lastName  = lastName;
         this.avatar = "/img/avatar.png";
@@ -33,7 +33,8 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
+    @Column(name = "username")
+    private String userName;
     private String password;
     private String role;
 
@@ -51,6 +52,6 @@ public class User implements Serializable {
 
 
     public User() {
-
+       // empty contractor without setting default values
     }
 }

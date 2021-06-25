@@ -1,11 +1,11 @@
-package me.burninghandsapp.familyportal.Services;
+package me.burninghandsapp.familyportal.services;
 
-import me.burninghandsapp.familyportal.models.User;
 import me.burninghandsapp.familyportal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -15,7 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        User user = userRepository.getUserByUsername(username);
+        var user = userRepository.getUserByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("Could not find user");

@@ -58,12 +58,12 @@
                             <tr th:each="user: ${users}">
                                 <td>
                                     <div th:if="${loggedUserDetails.enabled!=false}" class="btn-group">
-                                        <button th:data-enabled="${user.enabled}" th:data-username="${user.username}" th:data-role="${user.role}" th:data-firstname="${user.firstName}" th:data-lastname="${user.lastName}" th:data-email="${user.email}" th:data-mobile="${user.mobile}"  type="button" onclick="edituser(this)" th:data-id="${user.Id}"  title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
-                                        <button th:data-username="${user.username}" type="button" onclick="resetpassword(this)" title="reset password" th:data-id="${user.Id}" class="btn btn-success"><i class="fas fa-user-lock"></i></button>
-                                        <button th:if="${user.enabled!=false}" th:data-username="${user.username}" type="button" onclick="deleteuser(this)" title="delete" th:data-id="${user.Id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button th:data-enabled="${user.enabled}" th:data-username="${user.userName}" th:data-role="${user.role}" th:data-firstname="${user.firstName}" th:data-lastname="${user.lastName}" th:data-email="${user.email}" th:data-mobile="${user.mobile}"  type="button" onclick="edituser(this)" th:data-id="${user.id}"  title="edit" class="btn btn-info"><i class="far fa-edit"></i></button>
+                                        <button th:data-username="${user.userName}" type="button" onclick="resetpassword(this)" title="reset password" th:data-id="${user.id}" class="btn btn-success"><i class="fas fa-user-lock"></i></button>
+                                        <button th:if="${user.enabled!=false}" th:data-username="${user.userName}" type="button" onclick="deleteuser(this)" title="delete" th:data-id="${user.id}" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </div>
                                 </td>
-                                <td th:utext="@{|<image src='${user.avatar}' class='img-circle img-size-32 mr-2' />${user.username}|}"></td>
+                                <td th:utext="@{|<image src='${user.avatar}' class='img-circle img-size-32 mr-2' />${user.userName}|}"></td>
                                 <td th:text="${user.email}"></td>
                                 <td th:text="${user.firstName}"></td>
                                 <td th:text="${user.lastName}"></td>
@@ -113,7 +113,7 @@
 
                     <div class="form-group">
                         <label for="newusername">Username</label>
-                        <input type="text" class="form-control" id="newusername" name="username" >
+                        <input type="text" class="form-control" id="newusername" name="userName" >
                     </div>
 
                     <div class="form-group">
@@ -192,7 +192,7 @@
 
 
                 <div class="modal-body">
-                    <input id="editId" name="Id" type="hidden" />
+                    <input id="editId" name="id" type="hidden" />
 
                     <div class="form-group">
                         <label for="editfirstname">First Name</label>
@@ -250,7 +250,7 @@
                 </div>
                 <form th:action="@{/delete/user}" method="post">
                 <div class="modal-body">
-                    <input id="deleteId" name="Id" type="hidden" />
+                    <input id="deleteId" name="id" type="hidden" />
                     <p>Are you sure?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -276,7 +276,7 @@
                 </div>
                 <form th:action="@{/reset/user/password}" method="post">
                 <div class="modal-body">
-                    <input id="resetuserId" name="Id" type="hidden" />
+                    <input id="resetuserId" name="id" type="hidden" />
 
                     <div class="form-group">
                         <label for="newresetpassword">Password</label>

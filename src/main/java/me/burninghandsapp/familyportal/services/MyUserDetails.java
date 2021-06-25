@@ -1,4 +1,4 @@
-package me.burninghandsapp.familyportal.Services;
+package me.burninghandsapp.familyportal.services;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,7 +18,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
+        var authority = new SimpleGrantedAuthority(user.getRole());
         return Arrays.asList(authority);
     }
 
@@ -29,7 +29,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getUserName();
     }
 
     @Override

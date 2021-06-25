@@ -16,13 +16,13 @@ public class BlogPostRatings implements Serializable {
 
     @javax.persistence.Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private  int Id;
+    private  int id;
 
     @ManyToOne
-    private BlogPostItems BlogItem;
+    private BlogPostItems blogItem;
 
     @ManyToOne
-    private  User RateBy;
+    private  User rateBy;
 
-    private  Integer Rate;
+    private  Integer rate;
 }

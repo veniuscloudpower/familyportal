@@ -31,7 +31,7 @@
       <!-- Default box -->
       <div class="card card-outline card-primary">
         <div class="card-header">
-          <h3 class="card-title"><i class="fas fa-blog"></i> Edit article - <span th:text="${newpost.Title}"></span></h3>
+          <h3 class="card-title"><i class="fas fa-blog"></i> Edit article - <span th:text="${newpost.title}"></span></h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
@@ -42,20 +42,20 @@
         <form  th:action="@{/save/article/}" th:object="${newpost}" method="post" role="form">
         <div class="card-body">
 
-          <input type="hidden" id="Id" th:field="${newpost.Id}" />
+          <input type="hidden" id="id" th:field="${newpost.id}" />
 
-          <input type="hidden" id="Author" th:field="${newpost.Author}" />
 
-          <input type="hidden" id="DateCreated" th:field="${newpost.DateCreated}" />
 
-          <input type="hidden" id="AvgRate" th:field="${newpost.AvgRate}" />
+          <input type="hidden" id="dateCreated" th:field="${newpost.dateCreated}" />
+
+          <input type="hidden" id="avgRate" th:field="${newpost.avgRate}" />
 
 
             <div class="form-group">
               <label for="Category">Category</label>
               <select id="Category" class="form-control" th:field="${newpost.category}" >
                 <option value="">Please Select</option>
-                <option th:each="cte : ${categories}"  th:value="${cte.Id}" th:text="${cte.CategoryName}">
+                <option th:each="cte : ${categories}"  th:value="${cte.id}" th:text="${cte.categoryName}">
 
                 </option>
               </select>
@@ -63,18 +63,18 @@
             </div>
           <div class="form-group">
             <label for="Title">Title</label>
-            <input type="text" class="form-control" th:field="${newpost.Title}" id="Title">
+            <input type="text" class="form-control" th:field="${newpost.title}" id="Title">
           </div>
 
           <div class="form-group">
             <label for="Website">Website</label>
-            <input type="text" class="form-control" th:field="${newpost.Website}" id="Website">
+            <input type="text" class="form-control" th:field="${newpost.website}" id="Website">
           </div>
 
           <div class="form-group">
             <label for="summernote">Description</label>
 
-            <textarea th:field="${newpost.Description}" id="summernote"></textarea>
+            <textarea th:field="${newpost.description}" id="summernote"></textarea>
           </div>
 
         </div>
