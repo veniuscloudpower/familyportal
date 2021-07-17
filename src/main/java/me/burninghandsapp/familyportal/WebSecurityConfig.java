@@ -23,9 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests().anyRequest().authenticated().and()
                .formLogin()
-                .permitAll()
                 .and()
-                .logout().permitAll();
+                .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID");
     }
 
     @Bean

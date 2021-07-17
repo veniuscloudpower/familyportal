@@ -6,6 +6,7 @@ import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
 import me.burninghandsapp.familyportal.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -26,32 +27,26 @@ public class BaseController {
 
     ModelMapper mapper;
 
-    UserDto loginUser;
+    UserDto loginUser=null;
 
-    public static final  String DEFAULT_PAGE = "default";
+    public static final  String DEFAULT_PAGE = "Default";
+
+    public static  final String ApplicationVersion = "1.1.2";
 
     @Autowired
     public BaseController(CategoriesRepository categoryRepository, UserRepository userRepository) {
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.mapper = new ModelMapper();
-        this.loginUser = getLoginUser();
     }
 
 
     UserDto getLoginUser()
     {
-        if (loginUser!=null)
-        {
-            if(loginUser.getId()!=null) {
-                return loginUser;
-            }
-        }
-        else
-        {
-            loginUser = new UserDto();
-        }
+
         var loginUserName = getUserName();
+
+
 
         if (!loginUserName.isBlank()) {
             var loginUserEntity = userRepository.getUserByUsername(loginUserName);
@@ -62,6 +57,7 @@ public class BaseController {
 
     Model getBaseModel(Model model,String pageSection,int activeMenu)
     {
+
         model.addAttribute("categories",categoryRepository.findAll());
         model.addAttribute("pagefragment",pageSection);
         model.addAttribute("pagefragmentScript",pageSection.replace("main","script"));
@@ -71,6 +67,8 @@ public class BaseController {
         model.addAttribute("m3", getActiveMenu("m3",activeMenu));
         model.addAttribute("m4", getActiveMenu("m4",activeMenu));
         model.addAttribute("m5", getActiveMenu("m5",activeMenu));
+
+        model.addAttribute("appversion",this.ApplicationVersion);
 
        var loginUserRetrieved = getLoginUser();
 

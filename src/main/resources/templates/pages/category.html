@@ -35,15 +35,19 @@
             <!-- Default box -->
             <div class="card card-outline card-primary">
                 <div class="card-header">
+
                     <h3 class="card-title" th:utext="@{|<i class='fas fa-tag'></i> ${category.categoryName}|}"></h3>
 
                     <div class="card-tools">
+
+
                         <ul class="pagination pagination-sm">
 
                             <li class="page-item"><a  th:href="${prevpage}==0?'javascript:;':@{|/list/category/${category.id}?page=${prevpage}|}" class="page-link">«</a></li>
                             <li class="page-item"><a th:href="${articles.size()}<12?'javascript:;':@{|/list/category/${category.id}?page=${nextpage}|}" class="page-link">»</a></li>
 
                         </ul>
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -93,7 +97,9 @@
 
                 </div>
 
-
+<div class="card-footer">
+    <a class="btn btn-info btn-sm pull-right" th:href="${'/new/article'}" ><i class="fa fa-plus-square"></i> New</a>
+</div>
             </div>
             <!-- /.card -->
 

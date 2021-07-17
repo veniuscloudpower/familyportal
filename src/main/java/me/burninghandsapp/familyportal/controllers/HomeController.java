@@ -1,6 +1,7 @@
 package me.burninghandsapp.familyportal.controllers;
 
 
+import me.burninghandsapp.familyportal.modeldto.UserDto;
 import me.burninghandsapp.familyportal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class HomeController extends  BaseController {
     @Autowired
     public HomeController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, BlogPostItemCommentsRepository blogPostItemCommentsRepository, BlogPostRatingsRepository blogPostRatingsRepository) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
         this.blogPostItemsRepository = blogPostItemsRepository;
         this.blogPostItemCommentsRepository = blogPostItemCommentsRepository;
         this.blogPostRatingsRepository = blogPostRatingsRepository;
@@ -28,9 +30,12 @@ public class HomeController extends  BaseController {
 
     @GetMapping("/")
     public String getHomeAction( Model model) {
+
+
+
         getBaseModel(model,HOME_PAGE,1);
 
-         getLoginUser();
+
 
         model.addAttribute("articlescount",blogPostItemsRepository.findCountByAuthor(loginUser.getId()));
 
@@ -38,11 +43,11 @@ public class HomeController extends  BaseController {
 
         model.addAttribute("rankingcount",blogPostRatingsRepository.findCountByRateBy(loginUser.getId()));
 
-        model.addAttribute("myrecentarticles",blogPostItemsRepository.myRecentArticles(loginUser.getId()));
+        model.addAttribute("myrecentarticles",blogPostItemsRepository.findTop10RecentArticles(loginUser.getId()));
 
-        model.addAttribute("articlestoreview",blogPostItemsRepository.articleToReview(loginUser.getId()));
+        model.addAttribute("articlestoreview",blogPostItemsRepository.findTop10articleToReview(loginUser.getId()));
 
-        model.addAttribute("latestreviews",blogPostItemsRepository.myLatestReviewReceived(loginUser.getId()));
+        model.addAttribute("latestreviews",blogPostItemsRepository.findTop10ReviewReceived(loginUser.getId()));
 
 
 

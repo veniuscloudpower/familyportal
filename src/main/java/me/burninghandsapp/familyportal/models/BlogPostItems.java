@@ -37,9 +37,10 @@ public class BlogPostItems implements Serializable {
     private  String website;
 
     @ManyToOne
+    @JoinColumn(name="author_user_id", referencedColumnName="user_id")
     private  User author;
 
-    @Column(name = "dateCreated", columnDefinition = "TIMESTAMP")
+    @Column(name = "dateCreated", columnDefinition = "DATETIME")
     private LocalDateTime dateCreated;
 
     private  Integer avgRate;

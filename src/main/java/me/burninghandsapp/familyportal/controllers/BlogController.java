@@ -2,6 +2,7 @@ package me.burninghandsapp.familyportal.controllers;
 
 
 import me.burninghandsapp.familyportal.modeldto.BlogPostItemsDto;
+import me.burninghandsapp.familyportal.modeldto.UserDto;
 import me.burninghandsapp.familyportal.models.BlogPostItems;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
 import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
@@ -32,6 +33,7 @@ public class BlogController extends  BaseController {
     @Autowired
     public BlogController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, CategoriesRepository categoriesRepository) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
         this.blogPostItemsRepository = blogPostItemsRepository;
         this.categoriesRepository = categoriesRepository;
     }
@@ -84,6 +86,8 @@ public class BlogController extends  BaseController {
 
 
         mapper.map(blogPostItems,blogItem);
+
+
 
         blogItem.setDateCreated(getNow());
         blogItem.setAvgRate(0);

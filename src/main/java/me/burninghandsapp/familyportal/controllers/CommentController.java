@@ -1,5 +1,6 @@
 package me.burninghandsapp.familyportal.controllers;
 
+import me.burninghandsapp.familyportal.modeldto.UserDto;
 import me.burninghandsapp.familyportal.models.BlogPostItemComments;
 import me.burninghandsapp.familyportal.models.User;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemCommentsRepository;
@@ -22,6 +23,7 @@ public class CommentController extends  BaseController {
     @Autowired
     public CommentController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemCommentsRepository blogPostItemCommentsRepository, BlogPostItemsRepository blogPostItemsRepository) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
         this.blogPostItemCommentsRepository = blogPostItemCommentsRepository;
         this.blogPostItemsRepository = blogPostItemsRepository;
     }

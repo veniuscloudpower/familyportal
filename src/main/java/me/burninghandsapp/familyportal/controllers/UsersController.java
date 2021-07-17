@@ -38,6 +38,7 @@ public class UsersController extends BaseController {
     @Autowired
     public UsersController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, BlogPostItemCommentsRepository blogPostItemCommentsRepository, BlogPostRatingsRepository blogPostRatingsRepository, WebSecurityConfig webSecurityConfig) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
         this.blogPostItemsRepository = blogPostItemsRepository;
         this.blogPostItemCommentsRepository = blogPostItemCommentsRepository;
         this.blogPostRatingsRepository = blogPostRatingsRepository;
@@ -86,7 +87,7 @@ public class UsersController extends BaseController {
     }
 
     @PostMapping("/delete/user")
-    public  RedirectView deleteUser(Long id , Model model)
+    public  RedirectView deleteUser(Integer id , Model model)
     {
         var haschildobjects = false;
         var blogitemcount = blogPostItemsRepository.findCountByAuthor(id);
@@ -129,7 +130,7 @@ public class UsersController extends BaseController {
     }
 
     @PostMapping("/reset/user/password")
-    public  RedirectView resetUserPassword(Long id ,String password , Model model)
+    public  RedirectView resetUserPassword(Integer id ,String password , Model model)
     {
 
         var editUser = userRepository.findById(id);

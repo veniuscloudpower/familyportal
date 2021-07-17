@@ -1,9 +1,12 @@
 package me.burninghandsapp.familyportal.controllers;
 
 
+import me.burninghandsapp.familyportal.modeldto.UserDto;
 import me.burninghandsapp.familyportal.models.Categories;
 import me.burninghandsapp.familyportal.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +29,14 @@ public class CategoryController extends  BaseController {
     @Autowired
     public CategoryController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
         this.blogPostItemsRepository = blogPostItemsRepository;
     }
 
     @GetMapping("/categories")
     public  String getCategoriesList(Model model)
     {
+
         getBaseModel(model,CATEGORY_LIST_PAGE,3);
         return DEFAULT_PAGE;
     }
@@ -39,6 +44,7 @@ public class CategoryController extends  BaseController {
     @GetMapping("/list/category/{id}")
     public String getCategory(@PathVariable(value="id") Integer id, @RequestParam(defaultValue = "1") Integer page, Model model)
     {
+
         getBaseModel(model,CATEGORY_PAGE,2);
         var category = categoryRepository.getOne(id);
         model.addAttribute("category",category);
@@ -49,7 +55,9 @@ public class CategoryController extends  BaseController {
 
         model.addAttribute("prevpage",page-1);
 
-         model.addAttribute("articles", blogPostItemsRepository.findAllByCategory(id,12,(12*(page-1))));
+        Pageable pageRequestOf12 = PageRequest.of(page-1, 12);
+
+         model.addAttribute("articles", blogPostItemsRepository.findAllByCategory(id, pageRequestOf12));
 
         return DEFAULT_PAGE;
     }

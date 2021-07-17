@@ -1,5 +1,6 @@
 package me.burninghandsapp.familyportal.controllers;
 
+import me.burninghandsapp.familyportal.modeldto.UserDto;
 import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
 import me.burninghandsapp.familyportal.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class SettingsController extends BaseController {
     @Autowired
     public SettingsController(CategoriesRepository categoryRepository, UserRepository userRepository) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
     }
 
     @GetMapping("/Settings")

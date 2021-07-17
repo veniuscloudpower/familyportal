@@ -149,8 +149,8 @@
 
 
     <footer class="main-footer" th:fragment="footer">
-        <div class="float-right d-none d-sm-block">
-            <strong> Family Portal</strong>  Version 0.0.9
+        <div class="float-right d-none d-sm-block" th:utext="@{|<strong> Family Portal</strong>  Version ${appversion}|}">
+
         </div>
 
         <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io </a>.</strong> Version 3.0.4. All rights

@@ -2,6 +2,7 @@ package me.burninghandsapp.familyportal.controllers;
 
 import me.burninghandsapp.familyportal.modeldto.BlogPostItemsDto;
 import me.burninghandsapp.familyportal.modeldto.BlogPostRatingsDto;
+import me.burninghandsapp.familyportal.modeldto.UserDto;
 import me.burninghandsapp.familyportal.models.BlogPostRatings;
 import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
 import me.burninghandsapp.familyportal.repositories.BlogPostRatingsRepository;
@@ -27,6 +28,7 @@ public class RateController extends  BaseController {
     @Autowired
     public RateController(CategoriesRepository categoryRepository, UserRepository userRepository, BlogPostItemsRepository blogPostItemsRepository, BlogPostRatingsRepository blogPostRatingsRepository) {
         super(categoryRepository, userRepository);
+        this.loginUser = new UserDto();
         this.blogPostItemsRepository = blogPostItemsRepository;
         this.blogPostRatingsRepository = blogPostRatingsRepository;
     }

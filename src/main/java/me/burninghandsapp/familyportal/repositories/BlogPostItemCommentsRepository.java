@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlogPostItemCommentsRepository  extends JpaRepository<BlogPostItemComments,Integer> {
 
-    @Query(value = "SELECT  count(*) From blog_post_item_comments where author_user_id =:authorUserId",nativeQuery = true)
-    Integer findCountByAuthor(@Param("authorUserId") Long authorUserId);
+    @Query(value = "SELECT  count(u) From BlogPostItemComments u where u.author.id =:authorUserId")
+    Integer findCountByAuthor(@Param("authorUserId") Integer authorUserId);
 }

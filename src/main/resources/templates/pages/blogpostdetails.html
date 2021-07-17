@@ -41,7 +41,7 @@
     <!-- /.card-header -->
     <div class="card-body">
 
-        <a th:text="${article.title}" th:href="${article.website}" target="_blank"></a>
+        <a th:text="${article.title}" th:href="${article.website}==''?'javascript:;':@{|${article.website}|}" target="_blank"></a>
         <!-- post text -->
         <p style="height-max:100px;overflow:hidden" th:utext="${article.description}"></p>
         <a th:if="${article.author.userName==loggedUserDetails.userName && loggedUserDetails.enabled!=false}"  th:href="@{|/edit/article/${article.id}|}" class="btn btn-default btn-sm"><i class="far fa-edit"></i> Edit</a>
@@ -76,7 +76,7 @@
                 <input type="hidden" name="blogId" th:value="${article.id}" />
 
                 <div class="input-group input-group-sm">
-                    <input type="text" name="commenttext" class="form-control">
+                    <input type="text" name="commentText" class="form-control">
                     <span class="input-group-append">
                     <button type="submit" class="btn btn-info btn-flat">Add</button>
                   </span>

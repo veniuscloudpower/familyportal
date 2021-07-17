@@ -10,15 +10,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BlogPostRatingsRepository extends JpaRepository<BlogPostRatings,Integer> {
 
-    @Query(value = "select count(*) from blog_post_ratings where rate_by_user_id=:rateByUserId",nativeQuery = true)
-    Integer findCountByRateBy(@Param("rateByUserId") Long rateByUserId);
+    @Query(value = "select count(u) from BlogPostRatings u where u.id=:rateByUserId")
+    Integer findCountByRateBy(@Param("rateByUserId") Integer rateByUserId);
 
-    @Query(value = "select count(*) from blog_post_ratings where rate_by_user_id=:rateByUserId and blog_item_id=:blogItemId",nativeQuery = true)
-    Integer findCountByRateByAndBlog(@Param("blogItemId") Integer blogItemId,@Param("rateByUserId") Long rateByUserId);
+    @Query(value = "select count(u) from BlogPostRatings u where u.rateBy.id=:rateByUserId and u.blogItem.id=:blogItemId")
+    Integer findCountByRateByAndBlog(@Param("blogItemId") Integer blogItemId,@Param("rateByUserId") Integer rateByUserId);
 
-    @Query(value = "select * from blog_post_ratings where blog_item_id=:blogItemId and rate_by_user_id=:rateByUserId",nativeQuery = true)
-    BlogPostRatings findByBlog(@Param("blogItemId") Integer blogItemId,@Param("rateByUserId") Long rateByUserId);
+    @Query(value = "select u from BlogPostRatings u where u.blogItem.id=:blogItemId and u.rateBy.id=:rateByUserId")
+    BlogPostRatings findByBlog(@Param("blogItemId") Integer blogItemId,@Param("rateByUserId") Integer rateByUserId);
 
-    @Query(value = "select Round(AVG(rate)) from blog_post_ratings where blog_item_id=:blogItemId",nativeQuery = true)
+    @Query(value = "select AVG(u.rate) from BlogPostRatings u where u.blogItem.id=:blogItemId")
     Integer findAvgByBlog(@Param("blogItemId") Integer blogItemId);
 }

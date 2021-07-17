@@ -4,13 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import me.burninghandsapp.familyportal.models.User;
 import org.modelmapper.ModelMapper;
+
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 
 @Getter
 @Setter
 public class UserDto implements Serializable {
 
-    private Long id;
+    private Integer id;
 
     private String userName;
 

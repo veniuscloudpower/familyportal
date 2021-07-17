@@ -20,11 +20,12 @@ public class BlogPostItemComments implements Serializable {
     private BlogPostItems blogItem;
 
     @ManyToOne
+    @JoinColumn(name="author_user_id", referencedColumnName="user_id")
     private  User author;
 
     @Column(columnDefinition="TEXT")
     private String commentText;
 
-    @Column(name = "DateCreated", columnDefinition = "TIMESTAMP")
+    @Column(name = "DateCreated", columnDefinition = "DATETIME")
     private LocalDateTime dateCreated;
 }
