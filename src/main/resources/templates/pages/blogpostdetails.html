@@ -44,6 +44,30 @@
         <a th:text="${article.title}" th:href="${article.website}" target="_blank"></a>
         <!-- post text -->
         <p style="height-max:100px;overflow:hidden" th:utext="${article.description}"></p>
+        
+        <!-- File attachments -->
+        <div th:if="${not #lists.isEmpty(article.attachments)}" class="attachments mt-3">
+            <h6><i class="fas fa-paperclip"></i> Attachments:</h6>
+            <div class="row">
+                <div th:each="attachment : ${article.attachments}" class="col-md-4 mb-2">
+                    <div class="card card-outline card-info">
+                        <div class="card-body p-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-file mr-2 text-info"></i>
+                                <div class="flex-grow-1">
+                                    <small class="d-block font-weight-bold" th:text="${attachment.fileName}">filename.pdf</small>
+                                    <small class="text-muted" th:text="${#numbers.formatDecimal(attachment.fileSize/1024.0, 1, 1)} + ' KB'">128 KB</small>
+                                </div>
+                                <a th:href="@{|/attachment/download/${attachment.id}|}" class="btn btn-sm btn-outline-info ml-2" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <a th:if="${article.author.userName==loggedUserDetails.userName && loggedUserDetails.enabled!=false}"  th:href="@{|/edit/article/${article.id}|}" class="btn btn-default btn-sm"><i class="far fa-edit"></i> Edit</a>
         <a th:if="${loggedUserDetails.enabled!=false}" th:href="@{|/rate/article/${article.Id}|}" class="btn btn-default btn-sm"><i class="fab fa-gratipay"></i> Rate</a>
         <span  class="float-right text-muted"> <span class="badge badge-info" th:text="@{|Rating ${article.avgRate}|}"></span>  - <span th:text="${article.comments.size()}"></span>  comments</span>

@@ -15,6 +15,7 @@ public class BlogPostItems implements Serializable {
 
     public  BlogPostItems(){
         comments =  new ArrayList<>();
+        attachments = new ArrayList<>();
     }
 
 
@@ -46,5 +47,8 @@ public class BlogPostItems implements Serializable {
 
     @OneToMany(mappedBy = "blogItem")
     private List<BlogPostItemComments> comments;
+
+    @OneToMany(mappedBy = "blogPost", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BlogPostAttachment> attachments;
 
 }
