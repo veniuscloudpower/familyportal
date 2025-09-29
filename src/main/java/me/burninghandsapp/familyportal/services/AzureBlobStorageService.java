@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
@@ -21,10 +22,22 @@ public class AzureBlobStorageService {
     @Value("${azure.storage.container-name}")
     private String containerName;
 
-    private BlobContainerClient getBlobContainerClient() {
-        BlobServiceClient blobServiceClient = new BlobServiceClientBuilder()
+    private BlobServiceClient blobServiceClient;
+
+    @PostConstruct
+    public void init() {
+        this.blobServiceClient = new BlobServiceClientBuilder()
                 .connectionString(connectionString)
                 .buildClient();
+        
+        // Create container if it doesn't exist
+        BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+        if (!containerClient.exists()) {
+            containerClient.create();
+        }
+    }
+
+    private BlobContainerClient getBlobContainerClient() {
         return blobServiceClient.getBlobContainerClient(containerName);
     }
 
