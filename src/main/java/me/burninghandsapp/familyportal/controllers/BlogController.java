@@ -8,6 +8,7 @@ import me.burninghandsapp.familyportal.repositories.BlogPostAttachmentRepository
 import me.burninghandsapp.familyportal.repositories.BlogPostItemsRepository;
 import me.burninghandsapp.familyportal.repositories.CategoriesRepository;
 import me.burninghandsapp.familyportal.repositories.UserRepository;
+import me.burninghandsapp.familyportal.services.AzureBlobStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.io.InputStream;
 
 @Controller
 public class BlogController extends  BaseController {
@@ -33,6 +34,8 @@ public class BlogController extends  BaseController {
     private final CategoriesRepository categoriesRepository;
     
     private final BlogPostAttachmentRepository blogPostAttachmentRepository;
+    
+    private final AzureBlobStorageService azureBlobStorageService;
 
     public static final  String BLOG_POST_DETAILS_PAGE = "pages/blogpostdetails :: main";
 
@@ -44,11 +47,12 @@ public class BlogController extends  BaseController {
     @Autowired
     public BlogController(CategoriesRepository categoryRepository, UserRepository userRepository, 
                          BlogPostItemsRepository blogPostItemsRepository, CategoriesRepository categoriesRepository,
-                         BlogPostAttachmentRepository blogPostAttachmentRepository) {
+                         BlogPostAttachmentRepository blogPostAttachmentRepository, AzureBlobStorageService azureBlobStorageService) {
         super(categoryRepository, userRepository);
         this.blogPostItemsRepository = blogPostItemsRepository;
         this.categoriesRepository = categoriesRepository;
         this.blogPostAttachmentRepository = blogPostAttachmentRepository;
+        this.azureBlobStorageService = azureBlobStorageService;
     }
 
     @GetMapping("/details/article/{id}")
@@ -115,9 +119,9 @@ public class BlogController extends  BaseController {
                     attachment.setContentType(file.getContentType());
                     attachment.setFileSize(file.getSize());
                     
-                    var fileBytes = file.getBytes();
-                    var fileBase64 = Base64.getMimeEncoder().encodeToString(fileBytes);
-                    attachment.setFileData(fileBase64);
+                    // Upload file to Azure Blob Storage
+                    String blobUrl = azureBlobStorageService.uploadFile(file);
+                    attachment.setBlobUrl(blobUrl);
                     
                     blogPostAttachmentRepository.save(attachment);
                 }
@@ -156,9 +160,9 @@ public class BlogController extends  BaseController {
                     attachment.setContentType(file.getContentType());
                     attachment.setFileSize(file.getSize());
                     
-                    var fileBytes = file.getBytes();
-                    var fileBase64 = Base64.getMimeEncoder().encodeToString(fileBytes);
-                    attachment.setFileData(fileBase64);
+                    // Upload file to Azure Blob Storage
+                    String blobUrl = azureBlobStorageService.uploadFile(file);
+                    attachment.setBlobUrl(blobUrl);
                     
                     blogPostAttachmentRepository.save(attachment);
                 }
@@ -175,15 +179,35 @@ public class BlogController extends  BaseController {
         
         if (attachment.isPresent()) {
             var file = attachment.get();
-            byte[] fileBytes = Base64.getMimeDecoder().decode(file.getFileData());
-            
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
-                    .contentType(MediaType.parseMediaType(file.getContentType()))
-                    .contentLength(fileBytes.length)
-                    .body(fileBytes);
+            try (InputStream inputStream = azureBlobStorageService.downloadFile(file.getBlobUrl())) {
+                byte[] fileBytes = inputStream.readAllBytes();
+                
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFileName() + "\"")
+                        .contentType(MediaType.parseMediaType(file.getContentType()))
+                        .contentLength(fileBytes.length)
+                        .body(fileBytes);
+            } catch (IOException e) {
+                return ResponseEntity.status(500).build();
+            }
         }
         
         return ResponseEntity.notFound().build();
+    }
+    
+    @PostMapping("/attachment/delete/{id}")
+    public RedirectView deleteAttachment(@PathVariable(value="id") Integer id, 
+                                        @RequestParam(value="articleId") Integer articleId) {
+        var attachment = blogPostAttachmentRepository.findById(id);
+        
+        if (attachment.isPresent()) {
+            var file = attachment.get();
+            // Delete from Azure Blob Storage
+            azureBlobStorageService.deleteFile(file.getBlobUrl());
+            // Delete from database
+            blogPostAttachmentRepository.delete(file);
+        }
+        
+        return new RedirectView("/details/article/" + articleId);
     }
 }

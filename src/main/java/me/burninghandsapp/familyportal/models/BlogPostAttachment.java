@@ -26,7 +26,7 @@ public class BlogPostAttachment implements Serializable {
     private String contentType;
 
     @Column(columnDefinition = "TEXT")
-    private String fileData; // Base64 encoded file data
+    private String blobUrl; // Azure Blob Storage URL
 
     @Column(name = "dateUploaded", columnDefinition = "TIMESTAMP")
     private LocalDateTime dateUploaded;

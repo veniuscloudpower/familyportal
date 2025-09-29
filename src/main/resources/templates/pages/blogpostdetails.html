@@ -61,6 +61,14 @@
                                 <a th:href="@{|/attachment/download/${attachment.id}|}" class="btn btn-sm btn-outline-info ml-2" title="Download">
                                     <i class="fas fa-download"></i>
                                 </a>
+                                <form th:if="${article.author.userName==loggedUserDetails.userName && loggedUserDetails.enabled!=false}" 
+                                      th:action="@{|/attachment/delete/${attachment.id}|}" method="post" style="display: inline;">
+                                    <input type="hidden" name="articleId" th:value="${article.id}" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger ml-1" title="Delete" 
+                                            onclick="return confirm('Are you sure you want to delete this attachment?')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
